@@ -3,871 +3,371 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Devora Mountaineer — Women-led travel company. Weekend treks, night camping, private events & empowerment journeys across Rajasthan, Gujarat & pan-India.">
 <title>Devora Mountaineer – She Who Wanders, Rules</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --forest: #0d1f0f;
-    --deep: #142416;
-    --moss: #1e3a20;
-    --sage: #3a6b3e;
-    --gold: #c9963a;
-    --amber: #e8b96a;
-    --cream: #f5efe4;
-    --sand: #e8dcc8;
-    --terracotta: #c4613a;
-    --blush: #e8a898;
-    --white: #faf8f4;
-    --muted: rgba(245,239,228,0.55);
-  }
+:root {
+  --forest: #0d1f0f;
+  --deep: #142416;
+  --moss: #1e3a20;
+  --sage: #3a6b3e;
+  --gold: #c9963a;
+  --amber: #e8b96a;
+  --cream: #f5efe4;
+  --sand: #e8dcc8;
+  --terracotta: #c4613a;
+  --white: #faf8f4;
+  --muted: rgba(245,239,228,0.55);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--forest);color:var(--cream);font-family:'DM Sans',sans-serif;overflow-x:hidden;cursor:none}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+/* Progress bar */
+#progress-bar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--amber));width:0%;z-index:9999;transition:width 0.1s}
 
-  html { scroll-behavior: smooth; }
+/* Cursor */
+.cursor{width:10px;height:10px;background:var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:9997;transition:transform 0.15s ease;mix-blend-mode:difference}
+.cursor-ring{width:34px;height:34px;border:1.5px solid var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:9996;transition:all 0.22s ease;opacity:0.55}
+.cursor.hovering{transform:scale(2.8);opacity:0.6}
+.cursor-ring.hovering{transform:scale(1.6);opacity:0.2}
 
-  body {
-    background: var(--forest);
-    color: var(--cream);
-    font-family: 'DM Sans', sans-serif;
-    overflow-x: hidden;
-    cursor: none;
-  }
+/* Scrollbar */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--forest)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
 
-  /* Custom cursor */
-  .cursor {
-    width: 12px; height: 12px;
-    background: var(--gold);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.15s ease, opacity 0.3s;
-    mix-blend-mode: difference;
-  }
-  .cursor-ring {
-    width: 36px; height: 36px;
-    border: 1.5px solid var(--gold);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9998;
-    transition: all 0.25s ease;
-    opacity: 0.6;
-  }
+/* MOBILE MENU */
+.mobile-overlay{display:none;position:fixed;inset:0;background:rgba(8,15,9,0.98);z-index:90;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;opacity:0;transition:opacity 0.3s}
+.mobile-overlay.open{display:flex;opacity:1}
+.mobile-overlay a{font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:var(--cream);text-decoration:none;letter-spacing:0.06em;transition:color 0.3s}
+.mobile-overlay a:hover{color:var(--gold)}
+.mobile-close{position:absolute;top:1.8rem;right:1.8rem;background:none;border:none;color:var(--cream);font-size:1.5rem;cursor:pointer;line-height:1}
 
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: var(--forest); }
-  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.5rem 4rem;display:flex;align-items:center;justify-content:space-between;transition:all 0.4s ease}
+nav.scrolled{padding:0.9rem 4rem;background:rgba(13,31,15,0.94);backdrop-filter:blur(18px);border-bottom:0.5px solid rgba(201,150,58,0.22)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--gold);letter-spacing:0.08em;text-decoration:none}
+.nav-logo span{font-style:italic;color:var(--cream)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:0.82rem;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.3s;position:relative;padding-bottom:4px}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.3s}
+.nav-links a.active{color:var(--gold)}
+.nav-links a.active::after,.nav-links a:hover::after{transform:scaleX(1)}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:0.55rem 1.4rem;font-family:'DM Sans',sans-serif;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;cursor:none;transition:all 0.3s;text-decoration:none}
+.nav-cta:hover{background:var(--gold);color:var(--forest)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:24px;height:1.5px;background:var(--cream);transition:all 0.3s}
 
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 1.5rem 4rem;
-    display: flex; align-items: center; justify-content: space-between;
-    transition: all 0.4s ease;
-  }
-  nav.scrolled {
-    padding: 1rem 4rem;
-    background: rgba(13,31,15,0.92);
-    backdrop-filter: blur(16px);
-    border-bottom: 0.5px solid rgba(201,150,58,0.25);
-  }
-  .nav-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: var(--gold);
-    letter-spacing: 0.08em;
-    text-decoration: none;
-  }
-  .nav-logo span { font-style: italic; color: var(--cream); }
-  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-  .nav-links a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.85rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    transition: color 0.3s;
-  }
-  .nav-links a:hover { color: var(--gold); }
-  .nav-cta {
-    background: transparent;
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    padding: 0.6rem 1.5rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    cursor: none;
-    transition: all 0.3s;
-    text-decoration: none;
-  }
-  .nav-cta:hover { background: var(--gold); color: var(--forest); }
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:0 4rem;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 70% 40%,rgba(58,107,62,0.2) 0%,transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(201,150,58,0.09) 0%,transparent 50%),linear-gradient(160deg,#08150a 0%,#0d1f0f 40%,#101c0d 100%);z-index:0}
+.hero-particles{position:absolute;inset:0;z-index:1;overflow:hidden}
+.particle{position:absolute;width:2px;height:2px;background:var(--gold);border-radius:50%;opacity:0;animation:floatParticle linear infinite}
+@keyframes floatParticle{0%{opacity:0;transform:translateY(0) translateX(0)}10%{opacity:0.6}90%{opacity:0.3}100%{opacity:0;transform:translateY(-120vh) translateX(40px)}}
+.mountain-bg{position:absolute;bottom:0;left:0;right:0;z-index:1;opacity:0.15}
+.hero-content{position:relative;z-index:2;max-width:780px}
+.hero-eyebrow{font-size:0.73rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;opacity:0;animation:fadeUp 0.8s 0.3s forwards;display:flex;align-items:center;gap:0.8rem}
+.eyebrow-line{flex:1;max-width:40px;height:1px;background:var(--gold);opacity:0.5}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(3.2rem,7.5vw,7rem);font-weight:900;line-height:0.95;margin-bottom:1.8rem}
+.hero-title .line{display:block;opacity:0;transform:translateY(40px)}
+.hero-title .line:nth-child(1){animation:fadeUp 0.9s 0.5s forwards}
+.hero-title .line:nth-child(2){animation:fadeUp 0.9s 0.75s forwards;color:var(--gold);font-style:italic}
+.hero-title .line:nth-child(3){animation:fadeUp 0.9s 1.0s forwards}
+.hero-sub{font-size:1.05rem;color:var(--muted);line-height:1.85;max-width:460px;margin-bottom:3rem;opacity:0;animation:fadeUp 0.8s 1.3s forwards}
+.hero-btns{display:flex;gap:1.2rem;flex-wrap:wrap;opacity:0;animation:fadeUp 0.8s 1.6s forwards}
+.btn-primary{background:var(--gold);color:var(--forest);padding:0.9rem 2.2rem;font-family:'DM Sans',sans-serif;font-size:0.84rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;border:none;cursor:none;text-decoration:none;display:inline-block;position:relative;overflow:hidden;transition:all 0.3s}
+.btn-primary::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0.15);transform:translateX(-100%);transition:transform 0.3s}
+.btn-primary:hover::after{transform:translateX(0)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,150,58,0.35)}
+.btn-outline{background:transparent;color:var(--cream);padding:0.9rem 2.2rem;font-size:0.84rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;border:1px solid rgba(245,239,228,0.28);cursor:none;text-decoration:none;display:inline-block;transition:all 0.3s}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:0.5rem;opacity:0;animation:fadeUp 0.8s 2s forwards}
+.hero-scroll span{font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted)}
+.scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollPulse 2s ease-in-out infinite}
+.hero-stats{position:absolute;right:4rem;bottom:4rem;z-index:2;display:flex;flex-direction:column;gap:1.8rem;opacity:0;animation:fadeUp 0.8s 1.8s forwards}
+.stat-item{text-align:right;position:relative;padding-right:1rem}
+.stat-item::before{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:2px;height:60%;background:rgba(201,150,58,0.3)}
+.stat-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--gold);display:block;line-height:1}
+.stat-label{font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
 
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: flex; flex-direction: column;
-    justify-content: center; align-items: flex-start;
-    padding: 0 4rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-bg {
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse at 70% 40%, rgba(58,107,62,0.18) 0%, transparent 60%),
-      radial-gradient(ellipse at 20% 80%, rgba(201,150,58,0.08) 0%, transparent 50%),
-      linear-gradient(160deg, #0a1a0c 0%, #0d1f0f 40%, #111d0e 100%);
-    z-index: 0;
-  }
-  /* Mountain silhouette SVG bg */
-  .mountain-bg {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    z-index: 1; opacity: 0.18;
-  }
-  .hero-content { position: relative; z-index: 2; max-width: 780px; }
-  .hero-eyebrow {
-    font-size: 0.75rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 2rem;
-    opacity: 0;
-    animation: fadeUp 0.8s 0.3s forwards;
-  }
-  .hero-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(3rem, 7vw, 6.5rem);
-    font-weight: 900;
-    line-height: 1.0;
-    margin-bottom: 1.5rem;
-  }
-  .hero-title .line {
-    display: block;
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  .hero-title .line:nth-child(1) { animation: fadeUp 0.9s 0.5s forwards; }
-  .hero-title .line:nth-child(2) { animation: fadeUp 0.9s 0.75s forwards; color: var(--gold); font-style: italic; }
-  .hero-title .line:nth-child(3) { animation: fadeUp 0.9s 1.0s forwards; }
-  .hero-sub {
-    font-size: 1.05rem;
-    color: var(--muted);
-    line-height: 1.8;
-    max-width: 480px;
-    margin-bottom: 3rem;
-    opacity: 0;
-    animation: fadeUp 0.8s 1.3s forwards;
-  }
-  .hero-btns {
-    display: flex; gap: 1.2rem; flex-wrap: wrap;
-    opacity: 0;
-    animation: fadeUp 0.8s 1.6s forwards;
-  }
-  .btn-primary {
-    background: var(--gold);
-    color: var(--forest);
-    padding: 0.9rem 2.2rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border: none;
-    cursor: none;
-    text-decoration: none;
-    display: inline-block;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s;
-  }
-  .btn-primary:hover { transform: translateY(-2px); }
-  .btn-outline {
-    background: transparent;
-    color: var(--cream);
-    padding: 0.9rem 2.2rem;
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border: 1px solid rgba(245,239,228,0.3);
-    cursor: none;
-    text-decoration: none;
-    display: inline-block;
-    transition: all 0.3s;
-  }
-  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
-  .hero-scroll {
-    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
-    z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-    opacity: 0; animation: fadeUp 0.8s 2s forwards;
-  }
-  .hero-scroll span { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
-  .scroll-line {
-    width: 1px; height: 48px;
-    background: linear-gradient(to bottom, var(--gold), transparent);
-    animation: scrollPulse 2s ease-in-out infinite;
-  }
-  .hero-stats {
-    position: absolute; right: 4rem; bottom: 4rem;
-    z-index: 2; display: flex; flex-direction: column; gap: 1.5rem;
-    opacity: 0; animation: fadeUp 0.8s 1.8s forwards;
-  }
-  .stat-item { text-align: right; }
-  .stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem; font-weight: 700;
-    color: var(--gold); display: block;
-  }
-  .stat-label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+/* MARQUEE STRIP */
+.marquee-strip{background:var(--gold);overflow:hidden;padding:0.65rem 0;white-space:nowrap}
+.marquee-inner{display:inline-flex;gap:3rem;animation:marquee 18s linear infinite}
+.marquee-inner span{font-size:0.72rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--forest)}
+.marquee-inner span.dot{opacity:0.5;font-size:0.5rem}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-  /* SECTIONS */
-  section { padding: 6rem 4rem; }
-  .section-label {
-    font-size: 0.72rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 1rem;
-  }
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 1rem;
-  }
-  .section-title em { font-style: italic; color: var(--gold); }
-  .section-sub {
-    color: var(--muted);
-    font-size: 1rem;
-    line-height: 1.8;
-    max-width: 520px;
-  }
+/* SECTIONS */
+section{padding:6rem 4rem}
+.section-label{font-size:0.7rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:0.8rem}
+.section-label::before{content:'';display:inline-block;width:28px;height:1px;background:var(--gold)}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:700;line-height:1.15;margin-bottom:1rem}
+.section-title em{font-style:italic;color:var(--gold)}
+.section-sub{color:var(--muted);font-size:0.98rem;line-height:1.85;max-width:500px}
 
-  /* EXPERIENCES */
-  .experiences { background: var(--deep); }
-  .exp-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; flex-wrap: wrap; gap: 1.5rem; }
-  .exp-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5px;
-  }
-  .exp-card {
-    position: relative; overflow: hidden;
-    aspect-ratio: 4/5;
-    cursor: none;
-    background: var(--moss);
-  }
-  .exp-card-bg {
-    position: absolute; inset: 0;
-    background-size: cover; background-position: center;
-    transition: transform 0.7s ease;
-    filter: brightness(0.55);
-  }
-  .exp-card:hover .exp-card-bg { transform: scale(1.06); filter: brightness(0.45); }
-  .exp-card-content {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column;
-    justify-content: flex-end;
-    padding: 2rem 1.8rem;
-    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
-  }
-  .exp-badge {
-    display: inline-block;
-    background: var(--gold);
-    color: var(--forest);
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: 0.3rem 0.7rem;
-    margin-bottom: 0.8rem;
-    align-self: flex-start;
-  }
-  .exp-card h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem; font-weight: 700;
-    margin-bottom: 0.4rem;
-  }
-  .exp-meta { display: flex; gap: 1rem; }
-  .exp-meta span { font-size: 0.8rem; color: var(--muted); }
-  .exp-price {
-    position: absolute; top: 1.5rem; right: 1.5rem;
-    background: rgba(13,31,15,0.85);
-    border: 0.5px solid rgba(201,150,58,0.4);
-    padding: 0.5rem 0.9rem;
-    font-family: 'Playfair Display', serif;
-    font-size: 1rem; color: var(--gold);
-  }
+/* EXPERIENCES */
+.experiences{background:var(--deep)}
+.exp-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3.5rem;flex-wrap:wrap;gap:1.5rem}
+.exp-filter{display:flex;gap:0.5rem;flex-wrap:wrap}
+.filter-btn{background:transparent;border:0.5px solid rgba(201,150,58,0.25);color:var(--muted);padding:0.4rem 1rem;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.25s;font-family:'DM Sans',sans-serif}
+.filter-btn:hover,.filter-btn.active{background:var(--gold);color:var(--forest);border-color:var(--gold)}
+.exp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.exp-card{position:relative;overflow:hidden;aspect-ratio:4/5;cursor:none}
+.exp-card-bg{position:absolute;inset:0;transition:transform 0.7s ease;filter:brightness(0.5)}
+.exp-card:hover .exp-card-bg{transform:scale(1.07);filter:brightness(0.38)}
+/* Real scenic SVG backgrounds */
+.ec-1 .exp-card-bg{background:linear-gradient(160deg,#0a2010 0%,#1a4020 30%,#2a6030 60%,#1e4828 100%)}
+.ec-2 .exp-card-bg{background:linear-gradient(200deg,#1a0a04 0%,#3a1a08 35%,#6a3010 60%,#c87820 100%)}
+.ec-3 .exp-card-bg{background:linear-gradient(140deg,#060c18 0%,#0e1c34 30%,#183050 60%,#204068 100%)}
+.ec-4 .exp-card-bg{background:linear-gradient(170deg,#1a0818 0%,#38103a 35%,#5a186a 65%,#3a1048 100%)}
+.ec-5 .exp-card-bg{background:linear-gradient(150deg,#180c04 0%,#3c1e08 35%,#6a3810 65%,#9a5820 100%)}
+.ec-6 .exp-card-bg{background:linear-gradient(160deg,#040c18 0%,#081828 30%,#103048 60%,#082038 100%)}
+/* SVG scene overlays */
+.exp-scene{position:absolute;inset:0;z-index:1}
+.exp-card-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:1.8rem 1.6rem;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.2) 55%,transparent 100%);z-index:3}
+.exp-badge{display:inline-block;background:var(--gold);color:var(--forest);font-size:0.62rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:0.28rem 0.65rem;margin-bottom:0.7rem;align-self:flex-start}
+.exp-card h3{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:0.4rem;line-height:1.2}
+.exp-meta{display:flex;gap:0.6rem;align-items:center}
+.exp-meta span{font-size:0.75rem;color:rgba(245,239,228,0.7)}
+.exp-meta .sep{opacity:0.3}
+.exp-price{position:absolute;top:1.2rem;right:1.2rem;z-index:3;background:rgba(8,15,9,0.8);border:0.5px solid rgba(201,150,58,0.5);padding:0.45rem 0.85rem;font-family:'Playfair Display',serif;font-size:0.95rem;color:var(--gold);backdrop-filter:blur(4px)}
+.exp-icon{position:absolute;top:1.2rem;left:1.2rem;z-index:3;width:38px;height:38px;border:1px solid rgba(201,150,58,0.35);display:flex;align-items:center;justify-content:center;font-size:1.1rem;background:rgba(8,15,9,0.5);backdrop-filter:blur(4px)}
+/* Hover reveal caption */
+.exp-caption{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:4;opacity:0;transition:opacity 0.35s;padding:2rem}
+.exp-card:hover .exp-caption{opacity:1}
+.exp-caption-inner{text-align:center}
+.exp-caption-inner p{font-size:0.88rem;color:rgba(245,239,228,0.85);line-height:1.6;margin-bottom:1rem}
+.exp-book-btn{display:inline-block;padding:0.5rem 1.2rem;background:var(--gold);color:var(--forest);font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none}
 
-  /* Gradient overlays for exp cards */
-  .ec-1 .exp-card-bg { background-image: linear-gradient(135deg, #1e3a20, #2d5a30, #1a2e1a); }
-  .ec-2 .exp-card-bg { background-image: linear-gradient(135deg, #2a1a0e, #4a2e18, #1e1208); }
-  .ec-3 .exp-card-bg { background-image: linear-gradient(135deg, #0e1e2a, #1a3040, #0a1520); }
-  .ec-4 .exp-card-bg { background-image: linear-gradient(135deg, #1e1228, #3a1e48, #120e1e); }
-  .ec-5 .exp-card-bg { background-image: linear-gradient(135deg, #2a1e0e, #483018, #1e1408); }
-  .ec-6 .exp-card-bg { background-image: linear-gradient(135deg, #1a2e1e, #2e4a32, #121e14); }
+/* WOMEN CAMPAIGN */
+.women-section{background:linear-gradient(135deg,#160a06,#2a1208,#160a06);position:relative;overflow:hidden}
+.women-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(196,97,58,0.13) 0%,transparent 60%)}
+.women-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;position:relative;z-index:1}
+.women-quote{font-family:'Cormorant Garamond',serif;font-size:clamp(1.7rem,2.8vw,2.6rem);font-style:italic;font-weight:300;line-height:1.5;color:var(--sand);margin-bottom:2rem}
+.women-quote strong{color:var(--terracotta);font-weight:600;font-style:normal}
+.women-body{color:var(--muted);font-size:0.95rem;line-height:1.85;margin-bottom:2.5rem}
+.women-stats{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.wstat{padding:1.3rem;border:0.5px solid rgba(196,97,58,0.22);background:rgba(196,97,58,0.05);transition:border-color 0.3s}
+.wstat:hover{border-color:rgba(196,97,58,0.5)}
+.wstat-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--terracotta);display:block;margin-bottom:0.25rem}
+.wstat-label{font-size:0.78rem;color:var(--muted);line-height:1.4}
+.women-visual{position:relative}
+.women-img-box{width:100%;aspect-ratio:3/4;background:linear-gradient(160deg,#3a1a10,#5a2a18,#2a1008);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.women-text-art{font-family:'Playfair Display',serif;font-size:5.5rem;font-weight:900;color:rgba(196,97,58,0.12);line-height:1;text-align:center;user-select:none}
+.women-tag{position:absolute;bottom:2rem;left:-2.5rem;background:var(--terracotta);padding:1.5rem 1.8rem;max-width:250px;box-shadow:0 8px 30px rgba(0,0,0,0.3)}
+.women-tag p{font-size:0.88rem;font-style:italic;line-height:1.6;color:var(--cream);margin-bottom:0.5rem}
+.women-tag cite{font-size:0.7rem;letter-spacing:0.1em;opacity:0.75;font-style:normal}
+.women-dots{position:absolute;top:-1.5rem;right:-1.5rem;width:80px;height:80px;opacity:0.15}
 
-  /* SVG icons in cards */
-  .exp-icon {
-    position: absolute; top: 1.5rem; left: 1.5rem;
-    width: 42px; height: 42px;
-    border: 1px solid rgba(201,150,58,0.4);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.2rem;
-  }
+/* TRIPS */
+.trips{background:var(--forest)}
+.trips-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;flex-wrap:wrap;gap:1rem}
+.trips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5px;background:rgba(201,150,58,0.08)}
+.trip-card{background:var(--forest);padding:2.2rem 2rem;border:0.5px solid rgba(201,150,58,0.1);transition:background 0.3s;cursor:none;position:relative;overflow:hidden}
+.trip-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--amber));transform:scaleX(0);transform-origin:left;transition:transform 0.4s}
+.trip-card:hover::before{transform:scaleX(1)}
+.trip-card:hover{background:var(--deep)}
+.trip-number{font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:900;color:rgba(201,150,58,0.08);line-height:1;margin-bottom:0.8rem}
+.trip-card h3{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:0.6rem;line-height:1.3}
+.trip-card p{font-size:0.88rem;color:var(--muted);line-height:1.75;margin-bottom:1.2rem}
+.trip-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1.2rem}
+.tag{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.6rem;border:0.5px solid rgba(201,150,58,0.28);color:var(--gold)}
+.trip-footer{display:flex;justify-content:space-between;align-items:center}
+.trip-price{font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--gold)}
+.trip-price small{font-family:'DM Sans',sans-serif;font-size:0.68rem;color:var(--muted);display:block}
+.trip-cta{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--cream);text-decoration:none;border-bottom:1px solid rgba(245,239,228,0.25);padding-bottom:2px;transition:all 0.3s}
+.trip-cta:hover{color:var(--gold);border-color:var(--gold)}
+/* Urgency badge */
+.urgency{position:absolute;top:1.2rem;right:1.2rem;background:rgba(196,97,58,0.15);border:0.5px solid rgba(196,97,58,0.4);color:var(--terracotta);font-size:0.65rem;letter-spacing:0.08em;padding:0.25rem 0.6rem;text-transform:uppercase}
 
-  /* WOMEN CAMPAIGN */
-  .women-section {
-    background: linear-gradient(135deg, #1a0e0a, #2e1a10, #1a0e0a);
-    position: relative; overflow: hidden;
-  }
-  .women-section::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 30% 50%, rgba(196,97,58,0.12) 0%, transparent 60%);
-  }
-  .women-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem; align-items: center;
-    position: relative; z-index: 1;
-  }
-  .women-quote {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.8rem, 3vw, 2.8rem);
-    font-style: italic;
-    font-weight: 300;
-    line-height: 1.5;
-    color: var(--sand);
-    margin-bottom: 2rem;
-  }
-  .women-quote strong { color: var(--terracotta); font-weight: 600; }
-  .women-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-  .wstat {
-    padding: 1.5rem;
-    border: 0.5px solid rgba(196,97,58,0.25);
-    background: rgba(196,97,58,0.06);
-  }
-  .wstat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.2rem; font-weight: 700;
-    color: var(--terracotta);
-    display: block; margin-bottom: 0.3rem;
-  }
-  .wstat-label { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
-  .women-visual {
-    position: relative;
-  }
-  .women-img-box {
-    width: 100%; aspect-ratio: 3/4;
-    background: linear-gradient(160deg, #3a1a10, #5a2a18, #2a1008);
-    position: relative; overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .women-img-text {
-    font-family: 'Playfair Display', serif;
-    font-size: 5rem; font-weight: 900;
-    color: rgba(196,97,58,0.15);
-    line-height: 1;
-    text-align: center;
-  }
-  .women-tag {
-    position: absolute; bottom: 2rem; left: -2rem;
-    background: var(--terracotta);
-    padding: 1.5rem 2rem;
-    max-width: 240px;
-  }
-  .women-tag p { font-size: 0.9rem; font-style: italic; line-height: 1.5; color: var(--cream); }
-  .women-tag cite { font-size: 0.72rem; letter-spacing: 0.1em; opacity: 0.7; font-style: normal; }
+/* AFFILIATE */
+.affiliate{background:var(--deep)}
+.aff-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;flex-wrap:wrap;gap:1.5rem}
+.aff-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1px;background:rgba(201,150,58,0.08)}
+.aff-card{background:var(--deep);padding:2rem 1.6rem;border:0.5px solid rgba(201,150,58,0.12);transition:all 0.3s;cursor:none;position:relative;overflow:hidden}
+.aff-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.35s}
+.aff-card:hover::after{transform:scaleX(1)}
+.aff-card:hover{background:rgba(201,150,58,0.04)}
+.aff-icon{width:44px;height:44px;border:1px solid rgba(201,150,58,0.28);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.2rem}
+.aff-card h4{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;margin-bottom:0.5rem}
+.aff-card p{font-size:0.84rem;color:var(--muted);line-height:1.65}
+.commission{display:inline-block;margin-top:1rem;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);border-bottom:1px solid rgba(201,150,58,0.35);padding-bottom:2px}
 
-  /* TRIPS */
-  .trips { background: var(--forest); }
-  .trips-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 1px;
-    margin-top: 3rem;
-    background: rgba(201,150,58,0.1);
-  }
-  .trip-card {
-    background: var(--forest);
-    padding: 2.5rem 2rem;
-    border: 0.5px solid rgba(201,150,58,0.12);
-    transition: background 0.3s;
-    cursor: none;
-    position: relative;
-    overflow: hidden;
-  }
-  .trip-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--gold);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s;
-  }
-  .trip-card:hover::before { transform: scaleX(1); }
-  .trip-card:hover { background: var(--deep); }
-  .trip-number {
-    font-family: 'Playfair Display', serif;
-    font-size: 4rem; font-weight: 900;
-    color: rgba(201,150,58,0.1);
-    line-height: 1;
-    margin-bottom: 1rem;
-  }
-  .trip-card h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem; font-weight: 700;
-    margin-bottom: 0.8rem;
-  }
-  .trip-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
-  .trip-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
-  .tag {
-    font-size: 0.68rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.3rem 0.7rem;
-    border: 0.5px solid rgba(201,150,58,0.3);
-    color: var(--gold);
-  }
-  .trip-footer { display: flex; justify-content: space-between; align-items: center; }
-  .trip-price {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.3rem; color: var(--gold);
-  }
-  .trip-price small { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; color: var(--muted); display: block; }
-  .trip-cta {
-    font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--cream); text-decoration: none;
-    border-bottom: 1px solid rgba(245,239,228,0.3);
-    padding-bottom: 2px;
-    transition: color 0.3s, border-color 0.3s;
-  }
-  .trip-cta:hover { color: var(--gold); border-color: var(--gold); }
+/* TESTIMONIALS */
+.testimonials{background:var(--moss)}
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.5rem;margin-top:3rem}
+.testi-card{background:rgba(13,31,15,0.65);border:0.5px solid rgba(201,150,58,0.18);padding:2rem;position:relative;transition:border-color 0.3s}
+.testi-card:hover{border-color:rgba(201,150,58,0.45)}
+.testi-card::before{content:'\201C';position:absolute;top:0.8rem;right:1.2rem;font-family:'Playfair Display',serif;font-size:5rem;color:rgba(201,150,58,0.12);line-height:1}
+.stars{color:var(--gold);font-size:0.82rem;margin-bottom:1rem;letter-spacing:0.08em}
+.testi-card p{font-size:0.93rem;line-height:1.78;color:var(--sand);font-style:italic;margin-bottom:1.5rem}
+.testi-author{display:flex;align-items:center;gap:0.8rem}
+.testi-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--amber));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;color:var(--forest);flex-shrink:0}
+.testi-name{font-weight:600;font-size:0.88rem}
+.testi-meta{font-size:0.72rem;color:var(--muted)}
 
-  /* AFFILIATE */
-  .affiliate {
-    background: var(--deep);
-  }
-  .aff-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
-    margin-top: 3rem;
-  }
-  .aff-card {
-    padding: 2rem 1.5rem;
-    border: 0.5px solid rgba(201,150,58,0.15);
-    transition: all 0.3s;
-    cursor: none;
-  }
-  .aff-card:hover { border-color: var(--gold); background: rgba(201,150,58,0.05); }
-  .aff-icon {
-    width: 48px; height: 48px;
-    border: 1px solid rgba(201,150,58,0.3);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.4rem;
-    margin-bottom: 1.2rem;
-    color: var(--gold);
-  }
-  .aff-card h4 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.1rem; font-weight: 700;
-    margin-bottom: 0.5rem;
-  }
-  .aff-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
-  .commission {
-    display: inline-block;
-    margin-top: 1rem;
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--gold);
-    border-bottom: 1px solid rgba(201,150,58,0.4);
-  }
+/* INSTAGRAM */
+.instagram-section{background:var(--forest);padding:5rem 4rem}
+.insta-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem}
+.insta-handle{display:flex;align-items:center;gap:0.6rem;text-decoration:none;color:var(--cream);font-size:0.98rem;font-weight:500;transition:color 0.3s}
+.insta-handle:hover{color:var(--gold)}
+.insta-icon-wrap{width:28px;height:28px;background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.insta-icon-wrap svg{width:16px;height:16px;fill:white}
+.insta-follow-btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.5rem 1.2rem;border:1px solid rgba(201,150,58,0.38);color:var(--gold);font-size:0.76rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;transition:all 0.3s}
+.insta-follow-btn:hover{background:var(--gold);color:var(--forest)}
+.insta-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:3px}
+.insta-post{aspect-ratio:1;position:relative;overflow:hidden;cursor:pointer}
+.insta-post-bg{width:100%;height:100%;transition:transform 0.5s ease;display:flex;align-items:center;justify-content:center}
+.insta-post:hover .insta-post-bg{transform:scale(1.09)}
+.insta-overlay{position:absolute;inset:0;background:rgba(13,31,15,0);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;transition:background 0.3s;opacity:0}
+.insta-post:hover .insta-overlay{opacity:1;background:rgba(13,31,15,0.7)}
+.insta-overlay span{font-size:0.78rem;color:#fff;font-weight:500}
+.insta-loc{font-size:0.65rem!important;color:rgba(255,255,255,0.6)!important;letter-spacing:0.08em;text-transform:uppercase}
+.insta-stats{display:flex;gap:1rem}
+.insta-note{margin-top:1.2rem;text-align:center;font-size:0.78rem;color:var(--muted)}
+.insta-note a{color:var(--gold);text-decoration:underline}
 
-  /* TESTIMONIALS */
-  .testimonials { background: var(--moss); }
-  .testi-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 3rem;
-  }
-  .testi-card {
-    background: rgba(13,31,15,0.6);
-    border: 0.5px solid rgba(201,150,58,0.2);
-    padding: 2rem;
-    position: relative;
-  }
-  .testi-card::before {
-    content: '"';
-    position: absolute; top: 1rem; right: 1.5rem;
-    font-family: 'Playfair Display', serif;
-    font-size: 5rem; color: rgba(201,150,58,0.15);
-    line-height: 1;
-  }
-  .stars { color: var(--gold); font-size: 0.85rem; margin-bottom: 1rem; letter-spacing: 0.1em; }
-  .testi-card p { font-size: 0.95rem; line-height: 1.75; color: var(--sand); font-style: italic; margin-bottom: 1.5rem; }
-  .testi-author { display: flex; align-items: center; gap: 0.8rem; }
-  .testi-avatar {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: var(--gold);
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 600; font-size: 0.85rem;
-    color: var(--forest);
-    flex-shrink: 0;
-  }
-  .testi-name { font-weight: 600; font-size: 0.9rem; }
-  .testi-meta { font-size: 0.75rem; color: var(--muted); }
+/* NEWSLETTER */
+.newsletter{background:var(--deep);text-align:center;position:relative;overflow:hidden;padding:7rem 4rem}
+.newsletter::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(201,150,58,0.07) 0%,transparent 65%)}
+.nl-inner{position:relative;z-index:1;max-width:540px;margin:0 auto}
+.newsletter-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;margin-bottom:1rem}
+.newsletter-title em{color:var(--gold);font-style:italic}
+.newsletter p{color:var(--muted);font-size:0.95rem;margin-bottom:2rem;line-height:1.75}
+.nl-form{display:flex;gap:0;max-width:440px;margin:0 auto}
+.nl-form input{flex:1;background:rgba(245,239,228,0.06);border:0.5px solid rgba(201,150,58,0.32);border-right:none;color:var(--cream);padding:0.88rem 1.2rem;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.3s}
+.nl-form input:focus{border-color:rgba(201,150,58,0.7)}
+.nl-form input::placeholder{color:var(--muted)}
+.nl-form button{background:var(--gold);color:var(--forest);border:none;padding:0.88rem 1.8rem;font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.3s}
+.nl-form button:hover{background:var(--amber)}
+.nl-success{display:none;color:var(--gold);font-size:0.95rem;margin-top:1rem;animation:fadeUp 0.5s forwards}
+.nl-success.show{display:block}
+.lead-magnet{margin-top:1rem;font-size:0.78rem;color:var(--muted)}
+.lead-magnet a{color:var(--gold);text-decoration:underline}
 
-  /* NEWSLETTER */
-  .newsletter {
-    background: var(--forest);
-    text-align: center;
-    position: relative; overflow: hidden;
-  }
-  .newsletter::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 50% 50%, rgba(201,150,58,0.08) 0%, transparent 65%);
-  }
-  .newsletter-inner { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; }
-  .newsletter-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-    font-weight: 700; margin-bottom: 1rem;
-  }
-  .newsletter-title em { color: var(--gold); font-style: italic; }
-  .newsletter p { color: var(--muted); font-size: 0.95rem; margin-bottom: 2rem; line-height: 1.7; }
-  .newsletter-form { display: flex; gap: 0; max-width: 440px; margin: 0 auto; }
-  .newsletter-form input {
-    flex: 1;
-    background: rgba(245,239,228,0.07);
-    border: 0.5px solid rgba(201,150,58,0.35);
-    border-right: none;
-    color: var(--cream);
-    padding: 0.9rem 1.2rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem;
-    outline: none;
-  }
-  .newsletter-form input::placeholder { color: var(--muted); }
-  .newsletter-form button {
-    background: var(--gold);
-    color: var(--forest);
-    border: none;
-    padding: 0.9rem 1.8rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: none;
-    transition: background 0.3s;
-  }
-  .newsletter-form button:hover { background: var(--amber); }
-  .lead-magnet { margin-top: 1.2rem; font-size: 0.8rem; color: var(--muted); }
-  .lead-magnet a { color: var(--gold); text-decoration: underline; }
+/* BACK TO TOP */
+.back-top{position:fixed;bottom:6rem;right:1.8rem;width:42px;height:42px;background:rgba(13,31,15,0.9);border:0.5px solid rgba(201,150,58,0.4);color:var(--gold);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:200;opacity:0;transform:translateY(10px);transition:all 0.3s;font-size:1.1rem;text-decoration:none;backdrop-filter:blur(8px)}
+.back-top.show{opacity:1;transform:translateY(0)}
+.back-top:hover{background:var(--gold);color:var(--forest)}
 
-  /* FOOTER */
-  footer {
-    background: #080e09;
-    padding: 4rem;
-    border-top: 0.5px solid rgba(201,150,58,0.2);
-  }
-  .footer-top {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 3rem;
-    margin-bottom: 3rem;
-    padding-bottom: 3rem;
-    border-bottom: 0.5px solid rgba(245,239,228,0.08);
-  }
-  .footer-brand p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-top: 1rem; max-width: 280px; }
-  .footer-brand .logo-big {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2rem; font-weight: 600; color: var(--gold);
-  }
-  .footer-col h5 {
-    font-size: 0.72rem; letter-spacing: 0.18em;
-    text-transform: uppercase; color: var(--gold);
-    margin-bottom: 1.2rem;
-  }
-  .footer-col ul { list-style: none; }
-  .footer-col li { margin-bottom: 0.7rem; }
-  .footer-col a { color: var(--muted); text-decoration: none; font-size: 0.88rem; transition: color 0.3s; }
-  .footer-col a:hover { color: var(--cream); }
-  .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-  .footer-bottom p { font-size: 0.8rem; color: rgba(245,239,228,0.35); }
-  .social-links { display: flex; gap: 1rem; }
-  .social-links a {
-    width: 36px; height: 36px;
-    border: 0.5px solid rgba(201,150,58,0.3);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--muted); font-size: 0.85rem;
-    text-decoration: none; transition: all 0.3s;
-  }
-  .social-links a:hover { border-color: var(--gold); color: var(--gold); }
+/* FOOTER */
+footer{background:#07100a;padding:4rem;border-top:0.5px solid rgba(201,150,58,0.18)}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem;padding-bottom:3rem;border-bottom:0.5px solid rgba(245,239,228,0.07)}
+.logo-big{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--gold)}
+.footer-brand p{font-size:0.88rem;color:var(--muted);line-height:1.75;margin-top:0.8rem;max-width:270px}
+.footer-loc{margin-top:1rem;font-size:0.78rem;color:rgba(245,239,228,0.35)}
+.footer-col h5{font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem}
+.footer-col ul{list-style:none}
+.footer-col li{margin-bottom:0.65rem}
+.footer-col a{color:var(--muted);text-decoration:none;font-size:0.85rem;transition:color 0.3s}
+.footer-col a:hover{color:var(--cream)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-bottom p{font-size:0.78rem;color:rgba(245,239,228,0.3)}
+.social-links{display:flex;gap:0.75rem}
+.social-links a{width:34px;height:34px;border:0.5px solid rgba(201,150,58,0.25);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all 0.3s;text-decoration:none}
+.social-links a svg{width:15px;height:15px;fill:currentColor}
+.social-links a:hover{border-color:var(--gold);color:var(--gold)}
 
-  /* ── WhatsApp Advanced Bubble ── */
-  .wa-wrapper {
-    position: fixed; bottom: 1.8rem; right: 1.8rem;
-    z-index: 500;
-    display: flex; flex-direction: column; align-items: flex-end; gap: 0.8rem;
-  }
-  .wa-fab {
-    width: 60px; height: 60px;
-    background: #25d366;
-    border-radius: 50%;
-    border: none;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 24px rgba(37,211,102,0.45);
-    animation: waPulse 2.5s ease-in-out infinite;
-    position: relative;
-    transition: transform 0.2s;
-  }
-  .wa-fab:hover { transform: scale(1.08); }
-  .wa-notif-dot {
-    position: absolute; top: -2px; right: -2px;
-    width: 20px; height: 20px;
-    background: #ff3b30;
-    border-radius: 50%;
-    border: 2px solid var(--forest);
-    font-size: 0.65rem; font-weight: 700;
-    color: #fff;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .wa-bubble-expanded {
-    width: 300px;
-    background: #fff;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.25);
-    transform: scale(0.85) translateY(10px);
-    transform-origin: bottom right;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
-  }
-  .wa-bubble-expanded.open {
-    opacity: 1; transform: scale(1) translateY(0);
-    pointer-events: all;
-  }
-  .wa-exp-header {
-    background: #075e54;
-    padding: 1rem 1rem 1rem 1rem;
-    display: flex; align-items: center; gap: 0.75rem;
-  }
-  .wa-avatar {
-    width: 42px; height: 42px;
-    background: #25d366;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.75rem; font-weight: 700;
-    color: #fff; flex-shrink: 0;
-    position: relative;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .wa-online-dot {
-    position: absolute; bottom: 1px; right: 1px;
-    width: 10px; height: 10px;
-    background: #4ade80;
-    border-radius: 50%;
-    border: 2px solid #075e54;
-  }
-  .wa-info { flex: 1; }
-  .wa-info strong { display: block; font-size: 0.9rem; color: #fff; font-family: 'DM Sans', sans-serif; font-weight: 600; }
-  .wa-info span { font-size: 0.72rem; color: rgba(255,255,255,0.75); font-family: 'DM Sans', sans-serif; }
-  .wa-close {
-    background: none; border: none;
-    color: rgba(255,255,255,0.7);
-    font-size: 0.9rem; cursor: pointer;
-    padding: 4px; line-height: 1;
-    transition: color 0.2s;
-  }
-  .wa-close:hover { color: #fff; }
-  .wa-message-box {
-    background: #ece5dd;
-    padding: 1rem;
-  }
-  .wa-msg {
-    background: #fff;
-    border-radius: 0 10px 10px 10px;
-    padding: 0.75rem 1rem;
-    position: relative;
-    max-width: 240px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-  }
-  .wa-msg p { font-size: 0.88rem; color: #333; line-height: 1.5; margin-bottom: 0.3rem; font-family: 'DM Sans', sans-serif; }
-  .wa-msg p:last-of-type { margin-bottom: 0.5rem; }
-  .wa-time { font-size: 0.65rem; color: #aaa; float: right; font-family: 'DM Sans', sans-serif; }
-  .wa-start-btn {
-    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-    background: #25d366;
-    color: #fff;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem; font-weight: 600;
-    padding: 0.85rem 1rem;
-    text-decoration: none;
-    transition: background 0.2s;
-  }
-  .wa-start-btn:hover { background: #20b858; }
+/* WA BUBBLE */
+.wa-wrapper{position:fixed;bottom:1.8rem;right:1.8rem;z-index:500;display:flex;flex-direction:column;align-items:flex-end;gap:0.8rem}
+.wa-fab{width:58px;height:58px;background:#25d366;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 24px rgba(37,211,102,0.42);animation:waPulse 2.5s ease-in-out infinite;position:relative;transition:transform 0.2s}
+.wa-fab:hover{transform:scale(1.08)}
+.wa-notif-dot{position:absolute;top:-2px;right:-2px;width:20px;height:20px;background:#ff3b30;border-radius:50%;border:2px solid var(--forest);font-size:0.62rem;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif}
+.wa-bubble-expanded{width:300px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.28);transform:scale(0.85) translateY(10px);transform-origin:bottom right;opacity:0;pointer-events:none;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1)}
+.wa-bubble-expanded.open{opacity:1;transform:scale(1) translateY(0);pointer-events:all}
+.wa-exp-header{background:#075e54;padding:1rem;display:flex;align-items:center;gap:0.75rem}
+.wa-avatar{width:42px;height:42px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;color:#fff;flex-shrink:0;position:relative;font-family:'DM Sans',sans-serif}
+.wa-online-dot{position:absolute;bottom:1px;right:1px;width:10px;height:10px;background:#4ade80;border-radius:50%;border:2px solid #075e54}
+.wa-info{flex:1}
+.wa-info strong{display:block;font-size:0.88rem;color:#fff;font-family:'DM Sans',sans-serif;font-weight:600}
+.wa-info span{font-size:0.7rem;color:rgba(255,255,255,0.7);font-family:'DM Sans',sans-serif}
+.wa-close{background:none;border:none;color:rgba(255,255,255,0.65);font-size:0.9rem;cursor:pointer;padding:4px;line-height:1;transition:color 0.2s}
+.wa-close:hover{color:#fff}
+.wa-message-box{background:#ece5dd;padding:1rem}
+.wa-msg{background:#fff;border-radius:0 10px 10px 10px;padding:0.75rem 1rem;max-width:240px;box-shadow:0 1px 2px rgba(0,0,0,0.1)}
+.wa-msg p{font-size:0.86rem;color:#333;line-height:1.5;margin-bottom:0.3rem;font-family:'DM Sans',sans-serif}
+.wa-msg p:last-of-type{margin-bottom:0.5rem}
+.wa-time{font-size:0.62rem;color:#aaa;float:right;font-family:'DM Sans',sans-serif}
+.wa-start-btn{display:flex;align-items:center;justify-content:center;gap:0.5rem;background:#25d366;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.84rem;font-weight:600;padding:0.85rem 1rem;text-decoration:none;transition:background 0.2s}
+.wa-start-btn:hover{background:#20b858}
 
-  /* ── Instagram Feed ── */
-  .instagram-section {
-    background: var(--forest);
-    padding: 5rem 4rem;
-  }
-  .insta-header {
-    display: flex; justify-content: space-between; align-items: flex-end;
-    margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;
-  }
-  .insta-handle {
-    display: flex; align-items: center; gap: 0.6rem;
-    text-decoration: none;
-    color: var(--cream);
-    font-size: 1rem; font-weight: 500;
-    transition: color 0.3s;
-  }
-  .insta-handle:hover { color: var(--gold); }
-  .insta-icon {
-    width: 28px; height: 28px;
-    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-    border-radius: 7px;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .insta-icon svg { width: 16px; height: 16px; fill: white; }
-  .insta-follow-btn {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    padding: 0.55rem 1.2rem;
-    border: 1px solid rgba(201,150,58,0.4);
-    color: var(--gold);
-    font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.3s;
-  }
-  .insta-follow-btn:hover { background: var(--gold); color: var(--forest); }
-  .insta-grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 3px;
-  }
-  .insta-post {
-    aspect-ratio: 1;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-  }
-  .insta-post-bg {
-    width: 100%; height: 100%;
-    transition: transform 0.5s ease;
-  }
-  .insta-post:hover .insta-post-bg { transform: scale(1.08); }
-  .insta-overlay {
-    position: absolute; inset: 0;
-    background: rgba(13,31,15,0.0);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 0.4rem;
-    transition: background 0.3s;
-    opacity: 0;
-  }
-  .insta-post:hover .insta-overlay { opacity: 1; background: rgba(13,31,15,0.65); }
-  .insta-overlay span { font-size: 0.75rem; color: #fff; font-weight: 500; letter-spacing: 0.05em; }
-  .insta-likes, .insta-comments { display: flex; align-items: center; gap: 0.3rem; }
-  .insta-note {
-    margin-top: 1.2rem;
-    text-align: center;
-    font-size: 0.8rem;
-    color: var(--muted);
-  }
-  .insta-note a { color: var(--gold); text-decoration: underline; }
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scrollPulse{0%,100%{opacity:1}50%{opacity:0.25}}
+@keyframes waPulse{0%,100%{box-shadow:0 4px 20px rgba(37,211,102,0.42)}50%{box-shadow:0 4px 36px rgba(37,211,102,0.72)}}
 
-  @media (max-width: 900px) {
-    .insta-grid { grid-template-columns: repeat(3, 1fr); }
-    .instagram-section { padding: 4rem 1.5rem; }
-    .wa-bubble-expanded { width: 270px; }
-  }
+.reveal{opacity:0;transform:translateY(32px);transition:opacity 0.75s ease,transform 0.75s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:0.12s}
+.reveal-delay-2{transition-delay:0.24s}
+.reveal-delay-3{transition-delay:0.36s}
+.reveal-delay-4{transition-delay:0.48s}
 
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes scrollPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-  @keyframes waPulse {
-    0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.45); }
-    50% { box-shadow: 0 4px 36px rgba(37,211,102,0.75); }
-  }
-
-  /* Scroll reveal */
-  .reveal {
-    opacity: 0; transform: translateY(35px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-  .reveal-delay-1 { transition-delay: 0.15s; }
-  .reveal-delay-2 { transition-delay: 0.3s; }
-  .reveal-delay-3 { transition-delay: 0.45s; }
-
-  /* Hamburger / Mobile */
-  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: none; background: none; border: none; padding: 0; }
-  .hamburger span { display: block; width: 24px; height: 1.5px; background: var(--cream); transition: all 0.3s; }
-
-  @media (max-width: 900px) {
-    nav { padding: 1.2rem 1.5rem; }
-    nav.scrolled { padding: 0.8rem 1.5rem; }
-    .nav-links, .nav-cta { display: none; }
-    .hamburger { display: flex; }
-    .hero { padding: 0 1.5rem; }
-    .hero-stats { display: none; }
-    section { padding: 4rem 1.5rem; }
-    .women-inner { grid-template-columns: 1fr; gap: 2.5rem; }
-    .women-tag { left: 0; bottom: -2rem; }
-    .footer-top { grid-template-columns: 1fr 1fr; }
-    footer { padding: 3rem 1.5rem; }
-    .footer-bottom { flex-direction: column; text-align: center; }
-    .newsletter-form { flex-direction: column; }
-    .newsletter-form input { border-right: 0.5px solid rgba(201,150,58,0.35); }
-    .exp-grid { gap: 1px; }
-    .trips-grid { gap: 1px; }
-  }
+/* MOBILE */
+@media(max-width:900px){
+  nav{padding:1.1rem 1.5rem}
+  nav.scrolled{padding:0.75rem 1.5rem}
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  .hero{padding:0 1.5rem}
+  .hero-stats{display:none}
+  section{padding:4rem 1.5rem}
+  .exp-grid{grid-template-columns:1fr 1fr}
+  .women-inner{grid-template-columns:1fr;gap:2.5rem}
+  .women-tag{left:0;position:relative;bottom:auto;margin-top:1rem}
+  .insta-grid{grid-template-columns:repeat(3,1fr)}
+  .instagram-section{padding:4rem 1.5rem}
+  .footer-top{grid-template-columns:1fr 1fr;gap:2rem}
+  footer{padding:3rem 1.5rem}
+  .footer-bottom{flex-direction:column;text-align:center}
+  .nl-form{flex-direction:column}
+  .nl-form input{border-right:0.5px solid rgba(201,150,58,0.32);border-bottom:none}
+  .newsletter{padding:5rem 1.5rem}
+  .back-top{bottom:8rem}
+}
+@media(max-width:540px){
+  .exp-grid{grid-template-columns:1fr}
+  .insta-grid{grid-template-columns:repeat(3,1fr)}
+  .trips-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 
-<!-- Custom cursor -->
+<!-- Progress bar -->
+<div id="progress-bar"></div>
+
+<!-- Cursor -->
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
-<!-- WhatsApp Expandable CTA -->
+<!-- Back to top -->
+<a href="#home" class="back-top" id="backTop" title="Back to top">↑</a>
+
+<!-- Mobile overlay menu -->
+<div class="mobile-overlay" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="#experiences" onclick="closeMobile()">Experiences</a>
+  <a href="#trips" onclick="closeMobile()">Trips</a>
+  <a href="#women" onclick="closeMobile()">She Roams Free</a>
+  <a href="#affiliate" onclick="closeMobile()">Partners</a>
+  <a href="#instagram" onclick="closeMobile()">Gallery</a>
+  <a href="#contact" onclick="closeMobile()" style="color:var(--gold)">Book Now</a>
+</div>
+
+<!-- WhatsApp -->
 <div class="wa-wrapper" id="waWrapper">
   <div class="wa-bubble-expanded" id="waBubbleExp">
     <div class="wa-exp-header">
-      <div class="wa-avatar">
-        <span>DM</span>
-        <span class="wa-online-dot"></span>
-      </div>
+      <div class="wa-avatar">DM<span class="wa-online-dot"></span></div>
       <div class="wa-info">
         <strong>Devora Mountaineer</strong>
         <span>Typically replies in minutes</span>
       </div>
-      <button class="wa-close" id="waClose" aria-label="Close">✕</button>
+      <button class="wa-close" id="waClose">✕</button>
     </div>
     <div class="wa-message-box">
       <div class="wa-msg">
@@ -877,28 +377,28 @@
       </div>
     </div>
     <a href="https://wa.me/919876543210?text=Hi%20Devora%20Mountaineer!%20I%20want%20to%20book%20a%20trip." target="_blank" class="wa-start-btn">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.523 5.845L.057 23.428a.5.5 0 00.609.61l5.71-1.49A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.693-.498-5.24-1.371l-.374-.217-3.888 1.014 1.026-3.793-.235-.389A9.954 9.954 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.523 5.845L.057 23.428a.5.5 0 00.609.61l5.71-1.49A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.693-.498-5.24-1.371l-.374-.217-3.888 1.014 1.026-3.793-.235-.389A9.954 9.954 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
       Start Chat on WhatsApp
     </a>
   </div>
   <button class="wa-fab" id="waFab" aria-label="Chat on WhatsApp">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.523 5.845L.057 23.428a.5.5 00.609.61l5.71-1.49A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.693-.498-5.24-1.371l-.374-.217-3.888 1.014 1.026-3.793-.235-.389A9.954 9.954 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+    <svg width="27" height="27" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.523 5.845L.057 23.428a.5.5 0 00.609.61l5.71-1.49A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.693-.498-5.24-1.371l-.374-.217-3.888 1.014 1.026-3.793-.235-.389A9.954 9.954 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
     <span class="wa-notif-dot">1</span>
   </button>
 </div>
 
 <!-- NAV -->
 <nav id="navbar">
-  <a href="#" class="nav-logo">Devora <span>Mountaineer</span></a>
+  <a href="#home" class="nav-logo">Devora <span>Mountaineer</span></a>
   <ul class="nav-links">
-    <li><a href="#experiences">Experiences</a></li>
-    <li><a href="#trips">Trips</a></li>
-    <li><a href="#women">She Roams</a></li>
-    <li><a href="#affiliate">Partners</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#experiences" data-section="experiences">Experiences</a></li>
+    <li><a href="#trips" data-section="trips">Trips</a></li>
+    <li><a href="#women" data-section="women">She Roams Free</a></li>
+    <li><a href="#affiliate" data-section="affiliate">Partners</a></li>
+    <li><a href="#instagram" data-section="instagram">Gallery</a></li>
   </ul>
-  <a href="#trips" class="nav-cta">Book Now</a>
-  <button class="hamburger" aria-label="Menu">
+  <a href="#contact" class="nav-cta">Book Now</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
@@ -906,46 +406,70 @@
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-bg"></div>
-  <svg class="mountain-bg" viewBox="0 0 1440 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0 400L240 180L360 260L480 100L600 200L720 60L840 180L960 120L1080 220L1200 80L1320 200L1440 140V400H0Z" fill="#3a6b3e"/>
-    <path d="M0 400L180 240L320 310L440 160L560 250L680 100L800 220L920 150L1040 260L1160 110L1280 230L1440 170V400H0Z" fill="#1e3a20"/>
-    <path d="M0 400L120 290L280 350L420 200L540 300L660 150L780 260L900 190L1020 310L1140 160L1260 280L1440 210V400H0Z" fill="#142416"/>
+  <div class="hero-particles" id="particles"></div>
+  <svg class="mountain-bg" viewBox="0 0 1440 380" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 380L200 160L320 240L460 80L580 190L720 40L840 170L980 100L1100 210L1240 60L1360 190L1440 130V380H0Z" fill="#2a5e2e" opacity="0.6"/>
+    <path d="M0 380L160 230L300 300L420 150L560 240L680 90L810 210L940 140L1060 250L1190 100L1320 220L1440 160V380H0Z" fill="#1a3d1e" opacity="0.7"/>
+    <path d="M0 380L100 280L260 340L400 200L520 295L650 145L780 258L910 188L1030 305L1160 155L1290 278L1440 208V380H0Z" fill="#0f2411" opacity="0.8"/>
   </svg>
-
   <div class="hero-content">
-    <p class="hero-eyebrow">✦ Rajasthan · Gujarat · Pan India</p>
+    <p class="hero-eyebrow"><span class="eyebrow-line"></span>Rajasthan · Gujarat · Pan India</p>
     <h1 class="hero-title">
       <span class="line">She Who</span>
       <span class="line">Wanders,</span>
       <span class="line">Rules.</span>
     </h1>
-    <p class="hero-sub">Curated weekend treks, night mountain camping, private events & women empowerment journeys. Based in Udaipur &amp; Ahmedabad — your story starts here.</p>
+    <p class="hero-sub">Curated weekend treks, night mountain camping, private events & women empowerment journeys. Based in Udaipur & Ahmedabad — your story starts here.</p>
     <div class="hero-btns">
       <a href="#experiences" class="btn-primary">Explore Experiences</a>
       <a href="#women" class="btn-outline">She Roams Free →</a>
     </div>
   </div>
-
   <div class="hero-stats">
     <div class="stat-item">
-      <span class="stat-num">500+</span>
+      <span class="stat-num" data-count="500">0</span>
       <span class="stat-label">Happy Travelers</span>
     </div>
     <div class="stat-item">
-      <span class="stat-num">40+</span>
+      <span class="stat-num" data-count="40">0</span>
       <span class="stat-label">Destinations</span>
     </div>
     <div class="stat-item">
-      <span class="stat-num">98%</span>
-      <span class="stat-label">Satisfaction</span>
+      <span class="stat-num" data-count="98">0</span>
+      <span class="stat-label">% Satisfaction</span>
     </div>
   </div>
-
   <div class="hero-scroll">
     <span>Scroll</span>
     <div class="scroll-line"></div>
   </div>
 </section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-inner">
+    <span>Weekend Treks</span><span class="dot">✦</span>
+    <span>Night Camping</span><span class="dot">✦</span>
+    <span>Women Empowerment</span><span class="dot">✦</span>
+    <span>Family Tours</span><span class="dot">✦</span>
+    <span>Private Events</span><span class="dot">✦</span>
+    <span>Rajasthan</span><span class="dot">✦</span>
+    <span>Gujarat</span><span class="dot">✦</span>
+    <span>Pan India</span><span class="dot">✦</span>
+    <span>Bachelorette Treks</span><span class="dot">✦</span>
+    <span>Corporate Offsites</span><span class="dot">✦</span>
+    <span>Weekend Treks</span><span class="dot">✦</span>
+    <span>Night Camping</span><span class="dot">✦</span>
+    <span>Women Empowerment</span><span class="dot">✦</span>
+    <span>Family Tours</span><span class="dot">✦</span>
+    <span>Private Events</span><span class="dot">✦</span>
+    <span>Rajasthan</span><span class="dot">✦</span>
+    <span>Gujarat</span><span class="dot">✦</span>
+    <span>Pan India</span><span class="dot">✦</span>
+    <span>Bachelorette Treks</span><span class="dot">✦</span>
+    <span>Corporate Offsites</span><span class="dot">✦</span>
+  </div>
+</div>
 
 <!-- EXPERIENCES -->
 <section class="experiences" id="experiences">
@@ -954,96 +478,161 @@
       <p class="section-label reveal">What We Offer</p>
       <h2 class="section-title reveal reveal-delay-1">Experiences <em>Crafted</em><br>for the Bold</h2>
     </div>
-    <p class="section-sub reveal" style="max-width:340px">Each journey is hand-crafted — never a copy-paste tour. Real places, real people, real memories.</p>
+    <div class="exp-filter reveal reveal-delay-2">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="trek">Trek</button>
+      <button class="filter-btn" data-filter="camp">Camp</button>
+      <button class="filter-btn" data-filter="women">Women</button>
+      <button class="filter-btn" data-filter="family">Family</button>
+    </div>
   </div>
   <div class="exp-grid reveal">
-    <div class="exp-card ec-1">
+    <div class="exp-card ec-1" data-category="trek">
       <div class="exp-card-bg"></div>
+      <svg class="exp-scene" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <circle cx="320" cy="60" r="35" fill="#f5c842" opacity="0.25"/>
+        <path d="M0 500L100 300L160 380L230 200L300 320L370 150L400 240V500H0Z" fill="#0a2010" opacity="0.7"/>
+        <path d="M0 500L80 360L140 420L200 260L270 370L340 200L400 300V500H0Z" fill="#0d2812" opacity="0.8"/>
+        <path d="M60 380L80 340L100 380Z" fill="rgba(201,150,58,0.3)"/>
+        <line x1="100" y1="300" x2="120" y2="280" stroke="rgba(245,239,228,0.3)" stroke-width="1.5"/>
+      </svg>
       <div class="exp-icon">🏔</div>
       <div class="exp-price">₹2,499/pp</div>
       <div class="exp-card-content">
         <span class="exp-badge">Weekend Trek</span>
-        <h3>Kumbhalgarh Ridge Trail</h3>
-        <div class="exp-meta">
-          <span>2 Days</span>
-          <span>·</span>
-          <span>Rajasthan</span>
-          <span>·</span>
-          <span>Moderate</span>
+        <h3>Kumbhalgarh Ridge</h3>
+        <div class="exp-meta"><span>2 Days</span><span class="sep">·</span><span>Rajasthan</span><span class="sep">·</span><span>Moderate</span></div>
+      </div>
+      <div class="exp-caption">
+        <div class="exp-caption-inner">
+          <p>Historic fort walls, dense forests & breathtaking valley views.</p>
+          <a href="#contact" class="exp-book-btn">Book Now</a>
         </div>
       </div>
     </div>
-    <div class="exp-card ec-2">
+
+    <div class="exp-card ec-2" data-category="camp">
       <div class="exp-card-bg"></div>
+      <svg class="exp-scene" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <circle cx="200" cy="80" r="3" fill="#fff" opacity="0.8"/>
+        <circle cx="320" cy="50" r="2" fill="#fff" opacity="0.6"/>
+        <circle cx="80" cy="100" r="2.5" fill="#fff" opacity="0.7"/>
+        <circle cx="360" cy="120" r="2" fill="#fff" opacity="0.5"/>
+        <circle cx="150" cy="40" r="1.5" fill="#fff" opacity="0.9"/>
+        <circle cx="280" cy="30" r="2" fill="#fff" opacity="0.6"/>
+        <path d="M150 350L200 280L250 350Z" fill="rgba(201,150,58,0.4)"/>
+        <path d="M180 350L200 300L220 350Z" fill="rgba(255,200,100,0.3)"/>
+        <ellipse cx="200" cy="360" rx="40" ry="8" fill="rgba(201,150,58,0.15)"/>
+        <path d="M0 500L60 380L130 440L200 340L270 430L340 360L400 410V500H0Z" fill="#1a0e04" opacity="0.8"/>
+      </svg>
       <div class="exp-icon">🌙</div>
       <div class="exp-price">₹3,299/pp</div>
       <div class="exp-card-content">
         <span class="exp-badge">Night Camping</span>
         <h3>Aravalli Starlight Camp</h3>
-        <div class="exp-meta">
-          <span>1 Night</span>
-          <span>·</span>
-          <span>Udaipur</span>
-          <span>·</span>
-          <span>Easy</span>
+        <div class="exp-meta"><span>1 Night</span><span class="sep">·</span><span>Udaipur</span><span class="sep">·</span><span>Easy</span></div>
+      </div>
+      <div class="exp-caption">
+        <div class="exp-caption-inner">
+          <p>Bonfire under a billion stars. Chai, music, and mountain silence.</p>
+          <a href="#contact" class="exp-book-btn">Book Now</a>
         </div>
       </div>
     </div>
-    <div class="exp-card ec-3">
+
+    <div class="exp-card ec-3" data-category="family">
       <div class="exp-card-bg"></div>
-      <div class="exp-icon">👨‍👩‍👧</div>
+      <svg class="exp-scene" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <rect x="160" y="150" width="80" height="100" fill="rgba(201,150,58,0.2)" rx="2"/>
+        <polygon points="130,150 270,150 200,80" fill="rgba(201,150,58,0.25)"/>
+        <rect x="185" y="210" width="30" height="40" fill="rgba(245,239,228,0.15)"/>
+        <path d="M0 500L0 350L400 300V500H0Z" fill="#0a1828" opacity="0.7"/>
+        <path d="M60 320Q200 280 340 310" stroke="rgba(201,150,58,0.3)" stroke-width="1.5" fill="none"/>
+      </svg>
+      <div class="exp-icon">🏰</div>
       <div class="exp-price">₹5,999/pp</div>
       <div class="exp-card-content">
         <span class="exp-badge">Family Tour</span>
         <h3>Rajasthan Royal Circuit</h3>
-        <div class="exp-meta">
-          <span>5 Days</span>
-          <span>·</span>
-          <span>Pan Rajasthan</span>
+        <div class="exp-meta"><span>5 Days</span><span class="sep">·</span><span>Pan Rajasthan</span></div>
+      </div>
+      <div class="exp-caption">
+        <div class="exp-caption-inner">
+          <p>Jaipur, Jodhpur, Udaipur — forts, culture & local magic for all ages.</p>
+          <a href="#contact" class="exp-book-btn">Book Now</a>
         </div>
       </div>
     </div>
-    <div class="exp-card ec-4">
+
+    <div class="exp-card ec-4" data-category="women">
       <div class="exp-card-bg"></div>
+      <svg class="exp-scene" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <circle cx="200" cy="150" r="60" fill="rgba(196,97,58,0.12)" stroke="rgba(196,97,58,0.2)" stroke-width="1"/>
+        <circle cx="200" cy="150" r="40" fill="rgba(196,97,58,0.1)"/>
+        <text x="200" y="160" text-anchor="middle" font-size="36" fill="rgba(245,239,228,0.15)" font-family="serif">♀</text>
+        <path d="M0 500L80 360L160 420L240 300L320 390L400 320V500H0Z" fill="#1a0818" opacity="0.75"/>
+      </svg>
       <div class="exp-icon">♀</div>
       <div class="exp-price">₹4,199/pp</div>
       <div class="exp-card-content">
         <span class="exp-badge">Women Only</span>
-        <h3>She Roams Free — Jaisalmer</h3>
-        <div class="exp-meta">
-          <span>3 Days</span>
-          <span>·</span>
-          <span>Women Only</span>
+        <h3>She Roams — Jaisalmer</h3>
+        <div class="exp-meta"><span>3 Days</span><span class="sep">·</span><span>Women Only</span><span class="sep">·</span><span>All Levels</span></div>
+      </div>
+      <div class="exp-caption">
+        <div class="exp-caption-inner">
+          <p>Sand dunes, camel rides & sisterhood. Your safest solo adventure.</p>
+          <a href="#contact" class="exp-book-btn">Book Now</a>
         </div>
       </div>
     </div>
-    <div class="exp-card ec-5">
+
+    <div class="exp-card ec-5" data-category="family">
       <div class="exp-card-bg"></div>
+      <svg class="exp-scene" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <path d="M180 200L200 160L220 200L240 180L260 220H140L160 180Z" fill="rgba(201,150,58,0.2)"/>
+        <rect x="155" y="220" width="30" height="40" fill="rgba(201,150,58,0.15)" rx="2"/>
+        <rect x="215" y="220" width="30" height="40" fill="rgba(201,150,58,0.15)" rx="2"/>
+        <path d="M0 500L0 380L400 340V500H0Z" fill="#180c04" opacity="0.8"/>
+        <circle cx="300" cy="100" r="25" fill="rgba(232,185,106,0.2)"/>
+      </svg>
       <div class="exp-icon">🎉</div>
       <div class="exp-price">Custom</div>
       <div class="exp-card-content">
         <span class="exp-badge">Private Event</span>
-        <h3>Bachelorette & Birthday Treks</h3>
-        <div class="exp-meta">
-          <span>Customizable</span>
-          <span>·</span>
-          <span>Anywhere</span>
+        <h3>Bachelorette & Birthday</h3>
+        <div class="exp-meta"><span>Customizable</span><span class="sep">·</span><span>Anywhere</span></div>
+      </div>
+      <div class="exp-caption">
+        <div class="exp-caption-inner">
+          <p>Champagne sunrise, private camp, photo moments — all curated for her.</p>
+          <a href="#contact" class="exp-book-btn">Enquire</a>
         </div>
       </div>
     </div>
-    <div class="exp-card ec-6">
+
+    <div class="exp-card ec-6" data-category="trek">
       <div class="exp-card-bg"></div>
+      <svg class="exp-scene" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <circle cx="200" cy="70" r="3" fill="#fff" opacity="0.9"/>
+        <circle cx="100" cy="50" r="2" fill="#fff" opacity="0.7"/>
+        <circle cx="310" cy="40" r="2.5" fill="#fff" opacity="0.8"/>
+        <circle cx="350" cy="90" r="1.5" fill="#fff" opacity="0.6"/>
+        <path d="M0 500L80 280L150 360L220 180L290 300L360 120L400 220V500H0Z" fill="#040c18" opacity="0.6"/>
+        <path d="M0 500L60 340L120 400L190 240L260 350L330 170L400 270V500H0Z" fill="#081020" opacity="0.7"/>
+        <path d="M200 180L215 200L185 200Z" fill="rgba(245,239,228,0.3)"/>
+      </svg>
       <div class="exp-icon">🌏</div>
       <div class="exp-price">₹8,999/pp</div>
       <div class="exp-card-content">
         <span class="exp-badge">Pan India</span>
         <h3>Spiti Valley Expedition</h3>
-        <div class="exp-meta">
-          <span>7 Days</span>
-          <span>·</span>
-          <span>Himachal</span>
-          <span>·</span>
-          <span>Hard</span>
+        <div class="exp-meta"><span>7 Days</span><span class="sep">·</span><span>Himachal</span><span class="sep">·</span><span>Advanced</span></div>
+      </div>
+      <div class="exp-caption">
+        <div class="exp-caption-inner">
+          <p>High altitude monasteries, rivers so blue they don't look real.</p>
+          <a href="#contact" class="exp-book-btn">Book Now</a>
         </div>
       </div>
     </div>
@@ -1055,35 +644,29 @@
   <div class="women-inner">
     <div>
       <p class="section-label reveal">She Roams Free Campaign</p>
-      <blockquote class="women-quote reveal reveal-delay-1">
-        "Travel is the most powerful tool for <strong>women's freedom</strong> — and we're handing it to every woman who dares to go."
-      </blockquote>
-      <p style="color:var(--muted); font-size:0.95rem; line-height:1.8; margin-bottom:2.5rem;" class="reveal reveal-delay-2">
-        Devora Mountaineer was born from a belief: women shouldn't need permission to explore. We run subsidized solo-women trips, train local women as trek guides, and partner with NGOs for rural women's empowerment programs.
-      </p>
+      <blockquote class="women-quote reveal reveal-delay-1">"Travel is the most powerful tool for <strong>women's freedom</strong> — and we're handing it to every woman who dares to go."</blockquote>
+      <p class="women-body reveal reveal-delay-2">Devora Mountaineer was born from a belief: women shouldn't need permission to explore. We run subsidized solo-women trips, train local women as trek guides, and partner with NGOs for rural women's empowerment programs across Rajasthan.</p>
       <div class="women-stats reveal reveal-delay-3">
-        <div class="wstat">
-          <span class="wstat-num">300+</span>
-          <span class="wstat-label">Women empowered through solo travel</span>
-        </div>
-        <div class="wstat">
-          <span class="wstat-num">12</span>
-          <span class="wstat-label">Local women trained as trek guides</span>
-        </div>
-        <div class="wstat">
-          <span class="wstat-num">8</span>
-          <span class="wstat-label">NGO partnerships across Rajasthan</span>
-        </div>
-        <div class="wstat">
-          <span class="wstat-num">50%</span>
-          <span class="wstat-label">Subsidized seats on all women's trips</span>
-        </div>
+        <div class="wstat"><span class="wstat-num">300+</span><span class="wstat-label">Women empowered through solo travel</span></div>
+        <div class="wstat"><span class="wstat-num">12</span><span class="wstat-label">Local women trained as trek guides</span></div>
+        <div class="wstat"><span class="wstat-num">8</span><span class="wstat-label">NGO partnerships across Rajasthan</span></div>
+        <div class="wstat"><span class="wstat-num">50%</span><span class="wstat-label">Subsidized seats on all women's trips</span></div>
       </div>
-      <a href="#contact" class="btn-primary" style="margin-top:2rem; display:inline-block;">Join the Movement →</a>
+      <a href="#contact" class="btn-primary reveal reveal-delay-4" style="margin-top:2rem;display:inline-block">Join the Movement →</a>
     </div>
     <div class="women-visual reveal reveal-delay-2">
       <div class="women-img-box">
-        <div class="women-img-text">SHE<br>ROAMS<br>FREE</div>
+        <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%" preserveAspectRatio="xMidYMid slice">
+          <rect width="300" height="400" fill="#2a0e08"/>
+          <circle cx="150" cy="80" r="3" fill="#fff" opacity="0.7"/>
+          <circle cx="80" cy="50" r="2" fill="#fff" opacity="0.5"/>
+          <circle cx="240" cy="60" r="2.5" fill="#fff" opacity="0.6"/>
+          <path d="M0 400L40 280L90 340L140 200L190 300L240 160L300 240V400H0Z" fill="#3a1510" opacity="0.9"/>
+          <path d="M0 400L20 320L70 370L120 250L170 340L220 200L280 290L300 260V400H0Z" fill="#1e0808" opacity="0.95"/>
+          <circle cx="150" cy="190" r="40" fill="rgba(196,97,58,0.08)" stroke="rgba(196,97,58,0.15)" stroke-width="1"/>
+          <text x="150" y="205" text-anchor="middle" font-size="28" fill="rgba(196,97,58,0.2)" font-family="serif">♀</text>
+        </svg>
+        <div class="women-text-art">SHE<br>ROAMS<br>FREE</div>
       </div>
       <div class="women-tag">
         <p>"I trekked Kumbhalgarh alone for the first time. Devora Mountaineer made me feel fearless."</p>
@@ -1093,135 +676,115 @@
   </div>
 </section>
 
-<!-- FEATURED TRIPS -->
+<!-- TRIPS -->
 <section class="trips" id="trips">
-  <p class="section-label reveal">Upcoming Trips</p>
-  <h2 class="section-title reveal reveal-delay-1">Pick Your Next <em>Adventure</em></h2>
+  <div class="trips-header">
+    <div>
+      <p class="section-label reveal">Upcoming Trips</p>
+      <h2 class="section-title reveal reveal-delay-1">Pick Your Next <em>Adventure</em></h2>
+    </div>
+    <p class="section-sub reveal reveal-delay-2" style="max-width:300px">All trips include safety gear, certified guides & curated experiences.</p>
+  </div>
   <div class="trips-grid">
-
     <div class="trip-card reveal">
       <div class="trip-number">01</div>
+      <span class="urgency">3 seats left</span>
       <h3>Udaipur Sunset Trek</h3>
       <p>Chase the golden hour above the Aravalli ridgeline. Bonfire, local chai, and a night under the stars included.</p>
-      <div class="trip-tags">
-        <span class="tag">Weekend</span>
-        <span class="tag">Beginner</span>
-        <span class="tag">Rajasthan</span>
-        <span class="tag">Max 15 pax</span>
-      </div>
+      <div class="trip-tags"><span class="tag">Weekend</span><span class="tag">Beginner</span><span class="tag">Rajasthan</span><span class="tag">Max 15</span></div>
       <div class="trip-footer">
-        <div class="trip-price">₹1,999 <small>per person</small></div>
-        <a href="#contact" class="trip-cta">Book Now</a>
+        <div class="trip-price">₹1,999<small>per person</small></div>
+        <a href="#contact" class="trip-cta">Book Now →</a>
       </div>
     </div>
-
     <div class="trip-card reveal reveal-delay-1">
       <div class="trip-number">02</div>
-      <h3>Ahmedabad — Polo Forest Camp</h3>
-      <p>Ancient ruins, dense forest trails, and a two-night base camp. Perfect for Ahmedabad weekenders seeking a real escape.</p>
-      <div class="trip-tags">
-        <span class="tag">2 Nights</span>
-        <span class="tag">Family OK</span>
-        <span class="tag">Gujarat</span>
-      </div>
+      <h3>Polo Forest Camp</h3>
+      <p>Ancient ruins, dense forest trails & two-night base camp. Perfect Ahmedabad weekend escape.</p>
+      <div class="trip-tags"><span class="tag">2 Nights</span><span class="tag">Family OK</span><span class="tag">Gujarat</span></div>
       <div class="trip-footer">
-        <div class="trip-price">₹3,499 <small>per person</small></div>
-        <a href="#contact" class="trip-cta">Book Now</a>
+        <div class="trip-price">₹3,499<small>per person</small></div>
+        <a href="#contact" class="trip-cta">Book Now →</a>
       </div>
     </div>
-
     <div class="trip-card reveal reveal-delay-2">
       <div class="trip-number">03</div>
+      <span class="urgency">Filling Fast</span>
       <h3>Women's Trek — Mount Abu</h3>
-      <p>All-women group, certified female guide, safe transport. Because your adventure deserves a safe space to begin.</p>
-      <div class="trip-tags">
-        <span class="tag">Women Only</span>
-        <span class="tag">Empowerment</span>
-        <span class="tag">2 Days</span>
-      </div>
+      <p>All-women group, certified female guide, safe transport. Your adventure in a safe space.</p>
+      <div class="trip-tags"><span class="tag">Women Only</span><span class="tag">Empowerment</span><span class="tag">2 Days</span></div>
       <div class="trip-footer">
-        <div class="trip-price">₹2,799 <small>per person</small></div>
-        <a href="#contact" class="trip-cta">Book Now</a>
+        <div class="trip-price">₹2,799<small>per person</small></div>
+        <a href="#contact" class="trip-cta">Book Now →</a>
       </div>
     </div>
-
     <div class="trip-card reveal">
       <div class="trip-number">04</div>
       <h3>Bachelorette Trek Package</h3>
-      <p>Champagne sunrise, custom itinerary, private camp, photo moments. Make her last trip as a Miss unforgettable.</p>
-      <div class="trip-tags">
-        <span class="tag">Private</span>
-        <span class="tag">Custom</span>
-        <span class="tag">Pan India</span>
-      </div>
+      <p>Champagne sunrise, custom itinerary, private camp & photo moments. Make her last trip unforgettable.</p>
+      <div class="trip-tags"><span class="tag">Private</span><span class="tag">Custom</span><span class="tag">Pan India</span></div>
       <div class="trip-footer">
-        <div class="trip-price">₹6,999+ <small>per person</small></div>
-        <a href="#contact" class="trip-cta">Enquire</a>
+        <div class="trip-price">₹6,999+<small>per person</small></div>
+        <a href="#contact" class="trip-cta">Enquire →</a>
       </div>
     </div>
-
     <div class="trip-card reveal reveal-delay-1">
       <div class="trip-number">05</div>
       <h3>Family Rajasthan Circuit</h3>
-      <p>Jaipur, Jodhpur, Udaipur — crafted for families with kids. Heritage, culture, forts, and some off-road magic.</p>
-      <div class="trip-tags">
-        <span class="tag">5 Days</span>
-        <span class="tag">Family</span>
-        <span class="tag">All Ages</span>
-      </div>
+      <p>Jaipur, Jodhpur, Udaipur — crafted for families. Heritage, culture, forts and off-road magic.</p>
+      <div class="trip-tags"><span class="tag">5 Days</span><span class="tag">Family</span><span class="tag">All Ages</span></div>
       <div class="trip-footer">
-        <div class="trip-price">₹5,999 <small>per person</small></div>
-        <a href="#contact" class="trip-cta">Book Now</a>
+        <div class="trip-price">₹5,999<small>per person</small></div>
+        <a href="#contact" class="trip-cta">Book Now →</a>
       </div>
     </div>
-
     <div class="trip-card reveal reveal-delay-2">
       <div class="trip-number">06</div>
+      <span class="urgency">Premium</span>
       <h3>Spiti Valley — Pan India</h3>
-      <p>High altitude monasteries, blue rivers, and skies so clear you'll see forever. Our flagship premium expedition.</p>
-      <div class="trip-tags">
-        <span class="tag">7 Days</span>
-        <span class="tag">Advanced</span>
-        <span class="tag">Himachal</span>
-      </div>
+      <p>High altitude monasteries, blue rivers & skies so clear you'll see forever. Our flagship expedition.</p>
+      <div class="trip-tags"><span class="tag">7 Days</span><span class="tag">Advanced</span><span class="tag">Himachal</span></div>
       <div class="trip-footer">
-        <div class="trip-price">₹8,999 <small>per person</small></div>
-        <a href="#contact" class="trip-cta">Book Now</a>
+        <div class="trip-price">₹8,999<small>per person</small></div>
+        <a href="#contact" class="trip-cta">Book Now →</a>
       </div>
     </div>
-
   </div>
 </section>
 
 <!-- AFFILIATE -->
 <section class="affiliate" id="affiliate">
-  <p class="section-label reveal">Business &amp; Partnerships</p>
-  <h2 class="section-title reveal reveal-delay-1">Grow With <em>Devora</em></h2>
-  <p class="section-sub reveal reveal-delay-2">Multiple revenue streams. Zero upfront cost. Join our partner ecosystem and earn while others explore.</p>
+  <div class="aff-header">
+    <div>
+      <p class="section-label reveal">Business & Partnerships</p>
+      <h2 class="section-title reveal reveal-delay-1">Grow With <em>Devora</em></h2>
+      <p class="section-sub reveal reveal-delay-2">Multiple revenue streams. Zero upfront cost. Earn while others explore.</p>
+    </div>
+  </div>
   <div class="aff-grid">
     <div class="aff-card reveal">
       <div class="aff-icon">🔗</div>
       <h4>Affiliate Program</h4>
-      <p>Travel bloggers, influencers, and content creators earn a commission on every booking referred through your link.</p>
+      <p>Bloggers & influencers earn commission on every booking through your referral link.</p>
       <span class="commission">Earn up to 8% per booking</span>
     </div>
     <div class="aff-card reveal reveal-delay-1">
       <div class="aff-icon">🏢</div>
       <h4>Corporate Offsites</h4>
-      <p>Team building retreats, leadership camps, and offsite experiences for Ahmedabad and Jaipur-based companies.</p>
+      <p>Team building retreats & leadership camps for Ahmedabad and Jaipur-based companies.</p>
       <span class="commission">Custom B2B pricing</span>
     </div>
     <div class="aff-card reveal reveal-delay-2">
       <div class="aff-icon">🎒</div>
       <h4>Gear Affiliate Store</h4>
-      <p>Curated trekking gear — tents, shoes, backpacks — linked to partner brands. Earn on every product sold.</p>
+      <p>Curated trekking gear linked to partner brands. Earn on every product sold.</p>
       <span class="commission">5–12% product commission</span>
     </div>
     <div class="aff-card reveal reveal-delay-3">
       <div class="aff-icon">🏕</div>
       <h4>List Your Homestay</h4>
-      <p>Own a camp, homestay, or farm stay in Rajasthan or Gujarat? List with us and get bookings directly.</p>
-      <span class="commission">Free listing · 10% platform fee</span>
+      <p>Own a camp or homestay in Rajasthan / Gujarat? Get direct bookings with us.</p>
+      <span class="commission">Free listing · 10% fee</span>
     </div>
   </div>
 </section>
@@ -1234,138 +797,76 @@
     <div class="testi-card reveal">
       <div class="stars">★★★★★</div>
       <p>"Booked the women's trek on a whim and it changed my life. Our guide Geeta was phenomenal. Will never travel any other way."</p>
-      <div class="testi-author">
-        <div class="testi-avatar">PS</div>
-        <div>
-          <div class="testi-name">Priya Sharma</div>
-          <div class="testi-meta">Solo Trek · Udaipur</div>
-        </div>
-      </div>
+      <div class="testi-author"><div class="testi-avatar">PS</div><div><div class="testi-name">Priya Sharma</div><div class="testi-meta">Solo Trek · Udaipur</div></div></div>
     </div>
     <div class="testi-card reveal reveal-delay-1">
       <div class="stars">★★★★★</div>
-      <p>"Planned my bachelorette with Devora Mountaineer — best decision ever. They handled everything, all I had to do was show up and celebrate."</p>
-      <div class="testi-author">
-        <div class="testi-avatar">RM</div>
-        <div>
-          <div class="testi-name">Riya Mehta</div>
-          <div class="testi-meta">Bachelorette Package · Mount Abu</div>
-        </div>
-      </div>
+      <p>"Planned my bachelorette with Devora Mountaineer — best decision ever. They handled everything, I just had to show up and celebrate."</p>
+      <div class="testi-author"><div class="testi-avatar">RM</div><div><div class="testi-name">Riya Mehta</div><div class="testi-meta">Bachelorette Package · Mount Abu</div></div></div>
     </div>
     <div class="testi-card reveal reveal-delay-2">
       <div class="stars">★★★★★</div>
-      <p>"Took the whole family on the Rajasthan circuit. Kids loved the forts, wife loved the local food, I loved that nothing went wrong!"</p>
-      <div class="testi-author">
-        <div class="testi-avatar">AJ</div>
-        <div>
-          <div class="testi-name">Amit Joshi</div>
-          <div class="testi-meta">Family Tour · Rajasthan</div>
-        </div>
-      </div>
+      <p>"Took the whole family on the Rajasthan circuit. Kids loved the forts, wife loved the food, I loved that nothing went wrong!"</p>
+      <div class="testi-author"><div class="testi-avatar">AJ</div><div><div class="testi-name">Amit Joshi</div><div class="testi-meta">Family Tour · Rajasthan</div></div></div>
     </div>
   </div>
 </section>
 
-<!-- INSTAGRAM FEED -->
+<!-- INSTAGRAM -->
 <section class="instagram-section" id="instagram">
   <div class="insta-header reveal">
     <div>
       <p class="section-label">Follow the Journey</p>
-      <h2 class="section-title" style="margin-bottom:0.5rem;">Life on <em>Instagram</em></h2>
+      <h2 class="section-title" style="margin-bottom:0">Life on <em>Instagram</em></h2>
     </div>
-    <div style="display:flex; flex-direction:column; align-items:flex-end; gap:0.8rem;">
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:0.8rem">
       <a href="https://instagram.com/devoramountaineer" target="_blank" class="insta-handle">
-        <div class="insta-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-        </div>
+        <div class="insta-icon-wrap"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></div>
         @devoramountaineer
       </a>
-      <a href="https://instagram.com/devoramountaineer" target="_blank" class="insta-follow-btn">
-        Follow Us
-      </a>
+      <a href="https://instagram.com/devoramountaineer" target="_blank" class="insta-follow-btn">+ Follow Us</a>
     </div>
   </div>
-
-  <!-- Simulated Instagram Grid — replace src with real Elfsight/Behold widget embed -->
   <div class="insta-grid reveal">
-
     <div class="insta-post">
-      <div class="insta-post-bg" style="background:linear-gradient(135deg,#1e3a20,#3a6b3e,#2d5230);"></div>
-      <div class="insta-overlay">
-        <div class="insta-likes">❤ <span>342</span></div>
-        <div class="insta-comments">💬 <span>28</span></div>
-      </div>
+      <div class="insta-post-bg" style="background:linear-gradient(135deg,#0a2010,#1a4822,#2a6030)"><svg viewBox="0 0 100 100" style="width:100%;height:100%;opacity:0.3" xmlns="http://www.w3.org/2000/svg"><path d="M10 100L30 55L45 75L60 30L75 60L90 20L100 40V100H10Z" fill="#3a8a3e"/><circle cx="80" cy="15" r="8" fill="#f5c842" opacity="0.7"/></svg></div>
+      <div class="insta-overlay"><div class="insta-stats"><span>❤ 342</span><span>💬 28</span></div><span class="insta-loc">Kumbhalgarh, Rajasthan</span></div>
     </div>
-
     <div class="insta-post">
-      <div class="insta-post-bg" style="background:linear-gradient(135deg,#2a1a0e,#5a3018,#3a1e08);display:flex;align-items:center;justify-content:center;">
-        <span style="font-size:2.5rem;opacity:0.4;">🌅</span>
-      </div>
-      <div class="insta-overlay">
-        <div class="insta-likes">❤ <span>518</span></div>
-        <div class="insta-comments">💬 <span>47</span></div>
-      </div>
+      <div class="insta-post-bg" style="background:linear-gradient(160deg,#0a0808,#2a1a04,#5a3010)"><svg viewBox="0 0 100 100" style="width:100%;height:100%;opacity:0.4" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="20" r="3" fill="#fff" opacity="0.8"/><circle cx="20" cy="15" r="2" fill="#fff" opacity="0.6"/><circle cx="78" cy="10" r="2" fill="#fff" opacity="0.7"/><path d="M35 70L50 50L65 70Z" fill="rgba(201,150,58,0.6)"/><ellipse cx="50" cy="75" rx="20" ry="5" fill="rgba(201,150,58,0.2)"/></svg></div>
+      <div class="insta-overlay"><div class="insta-stats"><span>❤ 518</span><span>💬 47</span></div><span class="insta-loc">Aravalli Starcamp</span></div>
     </div>
-
     <div class="insta-post">
-      <div class="insta-post-bg" style="background:linear-gradient(135deg,#0e1e2a,#1a3a50,#0a2030);display:flex;align-items:center;justify-content:center;">
-        <span style="font-size:2.5rem;opacity:0.4;">🌙</span>
-      </div>
-      <div class="insta-overlay">
-        <div class="insta-likes">❤ <span>891</span></div>
-        <div class="insta-comments">💬 <span>63</span></div>
-      </div>
+      <div class="insta-post-bg" style="background:linear-gradient(140deg,#060c18,#0e1c38,#183560)"><svg viewBox="0 0 100 100" style="width:100%;height:100%;opacity:0.4" xmlns="http://www.w3.org/2000/svg"><path d="M5 100L20 65L35 80L50 45L65 70L80 30L100 55V100H5Z" fill="#183050"/><path d="M20 65L35 80L50 45L65 70L80 30L100 55" stroke="rgba(245,239,228,0.3)" stroke-width="1.5" fill="none"/></svg></div>
+      <div class="insta-overlay"><div class="insta-stats"><span>❤ 891</span><span>💬 63</span></div><span class="insta-loc">Spiti Valley, HP</span></div>
     </div>
-
     <div class="insta-post">
-      <div class="insta-post-bg" style="background:linear-gradient(135deg,#3a1a10,#6a2a18,#2a0e08);display:flex;align-items:center;justify-content:center;">
-        <span style="font-size:2.5rem;opacity:0.4;">♀</span>
-      </div>
-      <div class="insta-overlay">
-        <div class="insta-likes">❤ <span>1.2k</span></div>
-        <div class="insta-comments">💬 <span>94</span></div>
-      </div>
+      <div class="insta-post-bg" style="background:linear-gradient(135deg,#2a0e06,#5a1a10,#8a2a18)"><svg viewBox="0 0 100 100" style="width:100%;height:100%;opacity:0.3" xmlns="http://www.w3.org/2000/svg"><path d="M10 100Q30 60 50 80Q70 40 90 70V100H10Z" fill="#c4613a" opacity="0.5"/><circle cx="50" cy="35" r="15" fill="none" stroke="rgba(245,239,228,0.2)" stroke-width="1.5"/><text x="50" y="40" text-anchor="middle" font-size="12" fill="rgba(245,239,228,0.3)" font-family="serif">♀</text></svg></div>
+      <div class="insta-overlay"><div class="insta-stats"><span>❤ 1.2k</span><span>💬 94</span></div><span class="insta-loc">Jaisalmer, Rajasthan</span></div>
     </div>
-
     <div class="insta-post">
-      <div class="insta-post-bg" style="background:linear-gradient(135deg,#1e2a1e,#2e4a2e,#1a3a1a);display:flex;align-items:center;justify-content:center;">
-        <span style="font-size:2.5rem;opacity:0.4;">🏕</span>
-      </div>
-      <div class="insta-overlay">
-        <div class="insta-likes">❤ <span>476</span></div>
-        <div class="insta-comments">💬 <span>35</span></div>
-      </div>
+      <div class="insta-post-bg" style="background:linear-gradient(150deg,#0e1e0e,#1e3a1e,#2e5a2e)"><svg viewBox="0 0 100 100" style="width:100%;height:100%;opacity:0.35" xmlns="http://www.w3.org/2000/svg"><rect x="30" y="45" width="40" height="35" fill="#1a3a1a" rx="2"/><polygon points="25,45 75,45 50,20" fill="#1e4820"/><rect x="43" y="65" width="14" height="15" fill="rgba(201,150,58,0.3)"/></svg></div>
+      <div class="insta-overlay"><div class="insta-stats"><span>❤ 476</span><span>💬 35</span></div><span class="insta-loc">Polo Forest, Gujarat</span></div>
     </div>
-
     <div class="insta-post">
-      <div class="insta-post-bg" style="background:linear-gradient(135deg,#1a1a2e,#2e2e4a,#12122a);display:flex;align-items:center;justify-content:center;">
-        <span style="font-size:2.5rem;opacity:0.4;">⭐</span>
-      </div>
-      <div class="insta-overlay">
-        <div class="insta-likes">❤ <span>723</span></div>
-        <div class="insta-comments">💬 <span>58</span></div>
-      </div>
+      <div class="insta-post-bg" style="background:linear-gradient(135deg,#120e1e,#1e1838,#2e2858)"><svg viewBox="0 0 100 100" style="width:100%;height:100%;opacity:0.4" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="15" r="3" fill="#fff" opacity="0.9"/><circle cx="20" cy="8" r="1.5" fill="#fff" opacity="0.7"/><circle cx="80" cy="12" r="2" fill="#fff" opacity="0.8"/><circle cx="35" cy="5" r="1" fill="#fff" opacity="0.6"/><circle cx="65" cy="20" r="1.5" fill="#fff" opacity="0.5"/><path d="M0 100L15 70L30 85L50 55L70 78L85 50L100 68V100H0Z" fill="#1a1438" opacity="0.9"/></svg></div>
+      <div class="insta-overlay"><div class="insta-stats"><span>❤ 723</span><span>💬 58</span></div><span class="insta-loc">Mount Abu, Rajasthan</span></div>
     </div>
-
   </div>
-  <p class="insta-note">
-    📸 This is a preview grid. To embed your real Instagram feed free, use
-    <a href="https://behold.so" target="_blank">Behold.so</a> or
-    <a href="https://elfsight.com" target="_blank">Elfsight</a> — paste their widget code here.
-  </p>
+  <p class="insta-note">📸 To embed your real live feed for free, use <a href="https://behold.so" target="_blank">Behold.so</a> — paste one line of code here.</p>
 </section>
 
 <!-- NEWSLETTER -->
 <section class="newsletter" id="contact">
-  <div class="newsletter-inner">
-    <p class="section-label" style="justify-content:center; display:flex;">Stay Connected</p>
+  <div class="nl-inner">
+    <p class="section-label" style="justify-content:center;display:flex">Stay Connected</p>
     <h2 class="newsletter-title">Get Free <em>Rajasthan<br>Trek Guide</em> + Updates</h2>
-    <p>Drop your email and receive our free downloadable trek guide + be first to know about upcoming trips, women's campaigns, and partner deals.</p>
-    <div class="newsletter-form">
-      <input type="email" placeholder="your@email.com">
-      <button type="button">Get Guide</button>
+    <p>Drop your email and receive our free downloadable trek guide + be first to know about upcoming trips, women's campaigns & partner deals.</p>
+    <div class="nl-form">
+      <input type="email" id="nlEmail" placeholder="your@email.com">
+      <button type="button" id="nlBtn">Get Guide</button>
     </div>
+    <p class="nl-success" id="nlSuccess">🎉 Done! Check your inbox for the free guide.</p>
     <p class="lead-magnet">📥 Free download: <a href="#">"12 Best Weekend Treks from Udaipur & Ahmedabad"</a></p>
   </div>
 </section>
@@ -1376,7 +877,7 @@
     <div class="footer-brand">
       <div class="logo-big">Devora Mountaineer</div>
       <p>A women-led mountaineering & travel company organizing treks, camps, private events & empowerment journeys across Rajasthan, Gujarat and pan-India.</p>
-      <p style="margin-top:1rem; font-size:0.82rem; color:rgba(245,239,228,0.4);">📍 Udaipur · Ahmedabad · Pan India</p>
+      <p class="footer-loc">📍 Udaipur · Ahmedabad · Pan India</p>
     </div>
     <div class="footer-col">
       <h5>Experiences</h5>
@@ -1403,98 +904,128 @@
       <ul>
         <li><a href="mailto:hello@devoramountaineer.com">hello@devoramountaineer.com</a></li>
         <li><a href="tel:+919876543210">+91 98765 43210</a></li>
-        <li><a href="#">Instagram</a></li>
-        <li><a href="#">WhatsApp Group</a></li>
+        <li><a href="https://instagram.com/devoramountaineer" target="_blank">Instagram</a></li>
+        <li><a href="https://wa.me/919876543210" target="_blank">WhatsApp Group</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
     <p>© 2025 Devora Mountaineer. All rights reserved. Made with ♥ in Udaipur.</p>
     <div class="social-links">
-      <a href="#" title="Instagram">IG</a>
-      <a href="#" title="Facebook">FB</a>
-      <a href="#" title="YouTube">YT</a>
-      <a href="#" title="WhatsApp">WA</a>
+      <a href="https://instagram.com/devoramountaineer" target="_blank" title="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+      </a>
+      <a href="#" title="Facebook">
+        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </a>
+      <a href="#" title="YouTube">
+        <svg viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+      </a>
+      <a href="https://wa.me/919876543210" target="_blank" title="WhatsApp">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.523 5.845L.057 23.428a.5.5 0 00.609.61l5.71-1.49A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.693-.498-5.24-1.371l-.374-.217-3.888 1.014 1.026-3.793-.235-.389A9.954 9.954 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+      </a>
     </div>
   </div>
 </footer>
 
 <script>
-  // Custom cursor
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
+// Cursor
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx-5+'px';cursor.style.top=my-5+'px'});
+(function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx-17+'px';ring.style.top=ry-17+'px';requestAnimationFrame(animRing)})();
+document.querySelectorAll('a,button,.exp-card,.trip-card,.aff-card,.testi-card,.wstat').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.classList.add('hovering');ring.classList.add('hovering')});
+  el.addEventListener('mouseleave',()=>{cursor.classList.remove('hovering');ring.classList.remove('hovering')});
+});
 
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx - 6 + 'px';
-    cursor.style.top = my - 6 + 'px';
+// Progress bar
+const pb=document.getElementById('progress-bar');
+window.addEventListener('scroll',()=>{
+  const pct=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)*100;
+  pb.style.width=pct+'%';
+});
+
+// Navbar scroll + active links
+const navbar=document.getElementById('navbar');
+const sections=document.querySelectorAll('section[id]');
+const navLinks=document.querySelectorAll('.nav-links a[data-section]');
+window.addEventListener('scroll',()=>{
+  if(window.scrollY>80)navbar.classList.add('scrolled');
+  else navbar.classList.remove('scrolled');
+  // Back to top
+  document.getElementById('backTop').classList.toggle('show',window.scrollY>400);
+  // Active nav
+  let current='';
+  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-120)current=s.id});
+  navLinks.forEach(a=>{a.classList.toggle('active',a.dataset.section===current)});
+});
+
+// Mobile menu
+const hamburger=document.getElementById('hamburger');
+const mobileMenu=document.getElementById('mobileMenu');
+hamburger.addEventListener('click',()=>mobileMenu.classList.toggle('open'));
+document.getElementById('mobileClose').addEventListener('click',()=>mobileMenu.classList.remove('open'));
+function closeMobile(){mobileMenu.classList.remove('open')}
+
+// Floating particles
+const pContainer=document.getElementById('particles');
+for(let i=0;i<18;i++){
+  const p=document.createElement('div');
+  p.className='particle';
+  p.style.cssText=`left:${Math.random()*100}%;bottom:${Math.random()*30}%;width:${1+Math.random()*2}px;height:${1+Math.random()*2}px;animation-duration:${8+Math.random()*12}s;animation-delay:${Math.random()*8}s;opacity:0`;
+  pContainer.appendChild(p);
+}
+
+// Counter animation
+const counters=document.querySelectorAll('.stat-num[data-count]');
+const counterObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting)return;
+    const el=e.target,target=+el.dataset.count,suffix=el.nextElementSibling?.textContent.includes('%')?'+':'+'
+    let cur=0;const step=target/60;
+    const t=setInterval(()=>{cur=Math.min(cur+step,target);el.textContent=Math.floor(cur)+(target>=98?'%':'+');if(cur>=target)clearInterval(t)},25);
+    counterObs.unobserve(el);
   });
+},{threshold:0.5});
+counters.forEach(c=>counterObs.observe(c));
 
-  function animRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.left = rx - 18 + 'px';
-    ring.style.top = ry - 18 + 'px';
-    requestAnimationFrame(animRing);
-  }
-  animRing();
-
-  document.querySelectorAll('a, button, .exp-card, .trip-card, .aff-card').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursor.style.transform = 'scale(2.5)';
-      ring.style.transform = 'scale(1.5)';
-      ring.style.opacity = '0.3';
+// Experience filter
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.filter;
+    document.querySelectorAll('.exp-card').forEach(card=>{
+      const show=f==='all'||card.dataset.category===f;
+      card.style.opacity=show?'1':'0.25';
+      card.style.pointerEvents=show?'all':'none';
+      card.style.transform=show?'scale(1)':'scale(0.97)';
+      card.style.transition='all 0.35s ease';
     });
-    el.addEventListener('mouseleave', () => {
-      cursor.style.transform = 'scale(1)';
-      ring.style.transform = 'scale(1)';
-      ring.style.opacity = '0.6';
-    });
   });
+});
 
-  // Navbar scroll
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 80) navbar.classList.add('scrolled');
-    else navbar.classList.remove('scrolled');
-  });
+// WhatsApp
+const waFab=document.getElementById('waFab'),waExp=document.getElementById('waBubbleExp'),waClose=document.getElementById('waClose'),waDot=document.querySelector('.wa-notif-dot');
+waFab.addEventListener('click',()=>{waExp.classList.toggle('open');if(waDot)waDot.style.display='none'});
+waClose.addEventListener('click',e=>{e.stopPropagation();waExp.classList.remove('open')});
+setTimeout(()=>{if(!sessionStorage.getItem('waOpened')){waExp.classList.add('open');if(waDot)waDot.style.display='none';sessionStorage.setItem('waOpened','1')}},4000);
 
-  // WhatsApp bubble
-  const waFab = document.getElementById('waFab');
-  const waExp = document.getElementById('waBubbleExp');
-  const waClose = document.getElementById('waClose');
-  const waDot = document.querySelector('.wa-notif-dot');
+// Newsletter
+document.getElementById('nlBtn').addEventListener('click',()=>{
+  const email=document.getElementById('nlEmail').value;
+  if(!email||!email.includes('@')){document.getElementById('nlEmail').style.borderColor='rgba(196,97,58,0.8)';return}
+  document.getElementById('nlBtn').textContent='✓ Done!';
+  document.getElementById('nlSuccess').classList.add('show');
+  document.getElementById('nlEmail').value='';
+  document.getElementById('nlEmail').style.borderColor='rgba(201,150,58,0.32)';
+});
 
-  waFab.addEventListener('click', () => {
-    waExp.classList.toggle('open');
-    if (waDot) waDot.style.display = 'none';
-  });
-  waClose.addEventListener('click', (e) => {
-    e.stopPropagation();
-    waExp.classList.remove('open');
-  });
-
-  // Auto-open after 4s on first visit
-  setTimeout(() => {
-    if (!sessionStorage.getItem('waOpened')) {
-      waExp.classList.add('open');
-      if (waDot) waDot.style.display = 'none';
-      sessionStorage.setItem('waOpened', '1');
-    }
-  }, 4000);
-
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  reveals.forEach(el => observer.observe(el));
+// Scroll reveal
+const reveals=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:0.1});
+reveals.forEach(el=>obs.observe(el));
 </script>
 </body>
 </html>
