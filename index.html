@@ -101,6 +101,7 @@ nav.scrolled{padding:0.9rem 4rem;background:rgba(13,31,15,0.94);backdrop-filter:
 .stat-item{text-align:right;position:relative;padding-right:1rem}
 .stat-item::before{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:2px;height:60%;background:rgba(201,150,58,0.3)}
 .stat-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--gold);display:block;line-height:1}
+.stat-suffix{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--gold);margin-left:-0.3rem}
 .stat-label{font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
 
 /* MARQUEE STRIP */
@@ -509,16 +510,16 @@ footer{background:#07100a;padding:4rem;border-top:0.5px solid rgba(201,150,58,0.
   </div>
   <div class="hero-stats">
     <div class="stat-item">
-      <span class="stat-num" data-count="500">0</span>
+      <span class="stat-num" data-count="500">0</span><span class="stat-suffix">+</span>
       <span class="stat-label">Happy Travelers</span>
     </div>
     <div class="stat-item">
-      <span class="stat-num" data-count="40">0</span>
+      <span class="stat-num" data-count="40">0</span><span class="stat-suffix">+</span>
       <span class="stat-label">Destinations</span>
     </div>
     <div class="stat-item">
-      <span class="stat-num" data-count="98">0</span>
-      <span class="stat-label">% Satisfaction</span>
+      <span class="stat-num" data-count="98">0</span><span class="stat-suffix">%</span>
+      <span class="stat-label">Satisfaction</span>
     </div>
   </div>
   <div class="hero-scroll">
