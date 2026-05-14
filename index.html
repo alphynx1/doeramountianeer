@@ -7,6 +7,7 @@
     <meta name="description"
         content="Deora Mountaineer — Women-led travel company. Weekend treks, night camping, private events & empowerment journeys across Rajasthan, Gujarat & pan-India.">
     <title>Deora Mountaineer – She Who Wanders, Rules</title>
+    <link rel="icon" type="image/svg+xml" href="deora%20favicon%20icon.svg">
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&display=swap"
         rel="stylesheet">
@@ -1010,12 +1011,15 @@
 
         .trip-card {
             background: var(--forest);
-            padding: 2.2rem 2rem;
+            padding: 0;
             border: 0.5px solid rgba(201, 150, 58, 0.1);
             transition: background 0.3s;
             cursor: default;
             position: relative;
-            overflow: visible
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%
         }
 
         .trip-card::before {
@@ -1039,13 +1043,30 @@
             background: var(--deep)
         }
 
-        .trip-number {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: rgba(201, 150, 58, 0.08);
-            line-height: 1;
-            margin-bottom: 0.8rem
+        .trip-img-wrap {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+            background: #081509
+        }
+
+        .trip-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.2, 0, 0.2, 1)
+        }
+
+        .trip-card:hover .trip-img-wrap img {
+            transform: scale(1.1)
+        }
+
+        .trip-content {
+            padding: 1.8rem 1.8rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column
         }
 
         .trip-card h3 {
@@ -1082,7 +1103,8 @@
         .trip-footer {
             display: flex;
             justify-content: space-between;
-            align-items: center
+            align-items: center;
+            margin-top: auto
         }
 
         .trip-price {
@@ -2791,89 +2813,116 @@
         </div>
         <div class="trips-grid">
             <div class="trip-card reveal">
-                <div class="trip-number">01</div>
-                <span class="urgency">3 seats left</span>
-                <h3>Udaipur Sunset Trek</h3>
-                <div class="trip-date">📅 31 May – 1 Jun 2025</div>
-                <p>Chase the golden hour above the Aravalli ridgeline. Bonfire, local chai, and a night under the stars
-                    included.</p>
-                <div class="trip-tags"><span class="tag">Weekend</span><span class="tag">Beginner</span><span
-                        class="tag">Rajasthan</span><span class="tag">Max 15</span></div>
-                <div class="trip-footer">
-                    <div class="trip-price">₹1,999<small>per person</small></div>
-                    <button class="trip-cta-btn"
-                        onclick="openBooking('Udaipur Sunset Trek','31 May – 1 Jun 2025','₹1,999')">Book Now →</button>
+                <div class="trip-img-wrap">
+                    <img src="Udaipur-Sunset-Trek.jpg" alt="Udaipur Sunset Trek">
+                </div>
+                <div class="trip-content">
+                    <span class="urgency">3 seats left</span>
+                    <h3>Udaipur Sunset Trek</h3>
+                    <div class="trip-date">📅 31 May – 1 Jun 2025</div>
+                    <p>Chase the golden hour above the Aravalli ridgeline. Bonfire, local chai, and a night under the
+                        stars included.</p>
+                    <div class="trip-tags"><span class="tag">Weekend</span><span class="tag">Beginner</span><span
+                            class="tag">Rajasthan</span><span class="tag">Max 15</span></div>
+                    <div class="trip-footer">
+                        <div class="trip-price">₹1,999<small>per person</small></div>
+                        <button class="trip-cta-btn"
+                            onclick="openBooking('Udaipur Sunset Trek','31 May – 1 Jun 2025','₹1,999')">Book Now
+                            →</button>
+                    </div>
                 </div>
             </div>
             <div class="trip-card reveal reveal-delay-1">
-                <div class="trip-number">02</div>
-                <h3>Polo Forest Camp</h3>
-                <div class="trip-date">📅 7 – 8 Jun 2025</div>
-                <p>Ancient ruins, dense forest trails & two-night base camp. Perfect Ahmedabad weekend escape.</p>
-                <div class="trip-tags"><span class="tag">2 Nights</span><span class="tag">Family OK</span><span
-                        class="tag">Gujarat</span></div>
-                <div class="trip-footer">
-                    <div class="trip-price">₹3,499<small>per person</small></div>
-                    <button class="trip-cta-btn"
-                        onclick="openBooking('Polo Forest Camp','7 – 8 Jun 2025','₹3,499')">Book Now →</button>
+                <div class="trip-img-wrap">
+                    <img src="Polo-Forest-Camp.jpg" alt="Polo Forest Camp">
+                </div>
+                <div class="trip-content">
+                    <h3>Polo Forest Camp</h3>
+                    <div class="trip-date">📅 7 – 8 Jun 2025</div>
+                    <p>Ancient ruins, dense forest trails & two-night base camp. Perfect Ahmedabad weekend escape.</p>
+                    <div class="trip-tags"><span class="tag">2 Nights</span><span class="tag">Family OK</span><span
+                            class="tag">Gujarat</span></div>
+                    <div class="trip-footer">
+                        <div class="trip-price">₹3,499<small>per person</small></div>
+                        <button class="trip-cta-btn"
+                            onclick="openBooking('Polo Forest Camp','7 – 8 Jun 2025','₹3,499')">Book Now →</button>
+                    </div>
                 </div>
             </div>
             <div class="trip-card reveal reveal-delay-2">
-                <div class="trip-number">03</div>
-                <span class="urgency">Filling Fast</span>
-                <h3>Women's Trek — Mount Abu</h3>
-                <div class="trip-date">📅 14 – 15 Jun 2025</div>
-                <p>All-women group, certified female guide, safe transport. Your adventure in a safe space.</p>
-                <div class="trip-tags"><span class="tag">Women Only</span><span class="tag">Empowerment</span><span
-                        class="tag">2 Days</span></div>
-                <div class="trip-footer">
-                    <div class="trip-price">₹2,799<small>per person</small></div>
-                    <button class="trip-cta-btn"
-                        onclick="openBooking('Women\'s Trek — Mount Abu','14 – 15 Jun 2025','₹2,799')">Book Now
-                        →</button>
+                <div class="trip-img-wrap">
+                    <img src="Women's-Trek-—-Mount-Abu.jpg" alt="Women's Trek">
+                </div>
+                <div class="trip-content">
+                    <span class="urgency">Filling Fast</span>
+                    <h3>Women's Trek — Mount Abu</h3>
+                    <div class="trip-date">📅 14 – 15 Jun 2025</div>
+                    <p>All-women group, certified female guide, safe transport. Your adventure in a safe space.</p>
+                    <div class="trip-tags"><span class="tag">Women Only</span><span class="tag">Empowerment</span><span
+                            class="tag">2 Days</span></div>
+                    <div class="trip-footer">
+                        <div class="trip-price">₹2,799<small>per person</small></div>
+                        <button class="trip-cta-btn"
+                            onclick="openBooking('Women\'s Trek — Mount Abu','14 – 15 Jun 2025','₹2,799')">Book Now
+                            →</button>
+                    </div>
                 </div>
             </div>
             <div class="trip-card reveal">
-                <div class="trip-number">04</div>
-                <h3>Bachelorette Trek Package</h3>
-                <div class="trip-date">📅 Custom Date — On Request</div>
-                <p>Champagne sunrise, custom itinerary, private camp & photo moments. Make her last trip unforgettable.
-                </p>
-                <div class="trip-tags"><span class="tag">Private</span><span class="tag">Custom</span><span
-                        class="tag">Pan India</span></div>
-                <div class="trip-footer">
-                    <div class="trip-price">₹6,999+<small>per person</small></div>
-                    <button class="trip-cta-btn"
-                        onclick="openBooking('Bachelorette Trek Package','Custom Date','₹6,999+')">Enquire →</button>
+                <div class="trip-img-wrap">
+                    <img src="Bachelorette-Trek-Package.jpg" alt="Bachelorette Trek">
+                </div>
+                <div class="trip-content">
+                    <h3>Bachelorette Trek Package</h3>
+                    <div class="trip-date">📅 Custom Date — On Request</div>
+                    <p>Champagne sunrise, custom itinerary, private camp & photo moments. Make her last trip
+                        unforgettable.</p>
+                    <div class="trip-tags"><span class="tag">Private</span><span class="tag">Custom</span><span
+                            class="tag">Pan India</span></div>
+                    <div class="trip-footer">
+                        <div class="trip-price">₹6,999+<small>per person</small></div>
+                        <button class="trip-cta-btn"
+                            onclick="openBooking('Bachelorette Trek Package','Custom Date','₹6,999+')">Enquire
+                            →</button>
+                    </div>
                 </div>
             </div>
             <div class="trip-card reveal reveal-delay-1">
-                <div class="trip-number">05</div>
-                <h3>Family Rajasthan Circuit</h3>
-                <div class="trip-date">📅 21 – 25 Jun 2025</div>
-                <p>Jaipur, Jodhpur, Udaipur — crafted for families. Heritage, culture, forts and off-road magic.</p>
-                <div class="trip-tags"><span class="tag">5 Days</span><span class="tag">Family</span><span
-                        class="tag">All Ages</span></div>
-                <div class="trip-footer">
-                    <div class="trip-price">₹5,999<small>per person</small></div>
-                    <button class="trip-cta-btn"
-                        onclick="openBooking('Family Rajasthan Circuit','21 – 25 Jun 2025','₹5,999')">Book Now
-                        →</button>
+                <div class="trip-img-wrap">
+                    <img src="Family-Rajasthan-Circuit.jpg" alt="Family Rajasthan Circuit">
+                </div>
+                <div class="trip-content">
+                    <h3>Family Rajasthan Circuit</h3>
+                    <div class="trip-date">📅 21 – 25 Jun 2025</div>
+                    <p>Jaipur, Jodhpur, Udaipur — crafted for families. Heritage, culture, forts and off-road magic.</p>
+                    <div class="trip-tags"><span class="tag">5 Days</span><span class="tag">Family</span><span
+                            class="tag">All Ages</span></div>
+                    <div class="trip-footer">
+                        <div class="trip-price">₹5,999<small>per person</small></div>
+                        <button class="trip-cta-btn"
+                            onclick="openBooking('Family Rajasthan Circuit','21 – 25 Jun 2025','₹5,999')">Book Now
+                            →</button>
+                    </div>
                 </div>
             </div>
             <div class="trip-card reveal reveal-delay-2">
-                <div class="trip-number">06</div>
-                <span class="urgency">Premium</span>
-                <h3>Spiti Valley — Pan India</h3>
-                <div class="trip-date">📅 5 – 11 Jul 2025</div>
-                <p>High altitude monasteries, blue rivers & skies so clear you'll see forever. Our flagship expedition.
-                </p>
-                <div class="trip-tags"><span class="tag">7 Days</span><span class="tag">Advanced</span><span
-                        class="tag">Himachal</span></div>
-                <div class="trip-footer">
-                    <div class="trip-price">₹8,999<small>per person</small></div>
-                    <button class="trip-cta-btn"
-                        onclick="openBooking('Spiti Valley Expedition','5 – 11 Jul 2025','₹8,999')">Book Now →</button>
+                <div class="trip-img-wrap">
+                    <img src="Spiti-Valley-—-Pan-India.jpg" alt="Spiti Valley">
+                </div>
+                <div class="trip-content">
+                    <span class="urgency">Premium</span>
+                    <h3>Spiti Valley — Pan India</h3>
+                    <div class="trip-date">📅 5 – 11 Jul 2025</div>
+                    <p>High altitude monasteries, blue rivers & skies so clear you'll see forever. Our flagship
+                        expedition.</p>
+                    <div class="trip-tags"><span class="tag">7 Days</span><span class="tag">Advanced</span><span
+                            class="tag">Himachal</span></div>
+                    <div class="trip-footer">
+                        <div class="trip-price">₹8,999<small>per person</small></div>
+                        <button class="trip-cta-btn"
+                            onclick="openBooking('Spiti Valley Expedition','5 – 11 Jul 2025','₹8,999')">Book Now
+                            →</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -3412,4 +3461,3 @@
 </body>
 
 </html>
-
