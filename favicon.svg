@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Orange Sun -->
+  <circle cx="256" cy="220" r="180" fill="#F68E1B"/>
+  
+  <!-- White Mountains -->
+  <path d="M0 512 L120 280 L200 380 L320 180 L440 380 L512 280 L512 512 Z" fill="#FFFFFF"/>
+  
+  <!-- Hiker Silhouette in Orange -->
+  <g fill="#F68E1B">
+    <!-- Body & Legs -->
+    <path d="M268 234 L288 205 L305 235 L318 275 L304 275 L295 245 L285 275 L270 275 Z"/>
+    <!-- Head/Hat -->
+    <path d="M282 202 C282 195 288 192 295 192 C302 192 305 196 305 202 L290 205 Z"/>
+    <!-- Backpack -->
+    <path d="M295 208 L318 215 L322 250 L305 255 Z"/>
+    <!-- Walking Stick -->
+    <rect x="260" y="210" width="3" height="70" transform="rotate(10 260 210)"/>
+  </g>
+</svg>
