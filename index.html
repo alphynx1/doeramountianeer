@@ -3036,27 +3036,14 @@
 
         <!-- Behold Instagram Widget -->
         <div class="behold-widget-container reveal">
-            <behold-widget feed-id="8mvk0t8sSvtKEdW7aKnP" layout="grid" columns="6"></behold-widget>
+            <behold-widget feed-id="c5G0AmkXT5LxkxMfYOun" layout="grid" columns="6"></behold-widget>
         </div>
     </section>
 
     <script>
-        // Load Behold widget
-        (function () {
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', loadBeholdWidget);
-            } else {
-                loadBeholdWidget();
-            }
-
-            function loadBeholdWidget() {
-                const d = document;
-                const s = d.createElement('script');
-                s.type = 'module';
-                s.src = 'https://w.behold.so/widget.js';
-                s.async = true;
-                d.head.appendChild(s);
-            }
+        (() => {
+            const d=document,s=d.createElement("script");s.type="module";
+            s.src="https://w.behold.so/widget.js";d.head.append(s);
         })();
     </script>
 
@@ -3068,7 +3055,7 @@
                 <p class="section-label" style="margin-bottom:0.5rem">Partnership Inquiry</p>
                 <h3 class="modal-title" id="affiliateModalTitle">Affiliate Program</h3>
             </div>
-            <form class="booking-form" id="affiliateForm" action="https://share.google/gqJHljebth4hpX1SV" method="POST">
+            <form class="booking-form" id="affiliateForm" action="https://formspree.io/f/xeenbpko" method="POST">
                 <input type="hidden" name="Partnership Type" id="fAffType">
                 <input type="hidden" name="_replyto" value="rinkudeora33@gmail.com">
                 <input type="hidden" name="_subject" id="fAffSubject">
@@ -3130,7 +3117,7 @@
             </div>
             <!-- Formspree form — sends to rinkudeora33@gmail.com -->
             <!-- Step 1: Go to formspree.io, create free account, create form → get YOUR_FORM_ID, replace below -->
-            <form class="booking-form" id="bookingForm" action="https://share.google/gqJHljebth4hpX1SV" method="POST">
+            <form class="booking-form" id="bookingForm" action="https://formspree.io/f/xeenbpko" method="POST">
                 <input type="hidden" name="Trip Name" id="fTripName">
                 <input type="hidden" name="Trip Date" id="fTripDate">
                 <input type="hidden" name="Trip Price" id="fTripPrice">
@@ -3448,14 +3435,71 @@
         document.getElementById('affiliateForm').addEventListener('submit', function (e) {
             e.preventDefault();
             const btn = document.getElementById('affFormSubmitBtn');
-            btn.textContent = 'Sending...';
+            const submitText = document.getElementById('affSubmitText');
+            const originalText = submitText ? submitText.textContent : btn.textContent;
+            if (submitText) submitText.textContent = 'Sending...';
+            else btn.textContent = 'Sending...';
             btn.style.opacity = '0.6';
             btn.style.pointerEvents = 'none';
 
-            setTimeout(() => {
-                document.getElementById('affiliateForm').classList.remove('show');
-                document.getElementById('affiliateFormSuccess').classList.add('show');
-            }, 800);
+            fetch(e.target.action, {
+                method: 'POST',
+                body: new FormData(e.target),
+                headers: { 'Accept': 'application/json' }
+            }).then(response => {
+                if (response.ok) {
+                    document.getElementById('affiliateForm').classList.remove('show');
+                    document.getElementById('affiliateFormSuccess').classList.add('show');
+                    e.target.reset();
+                } else {
+                    alert("There was an error submitting the form.");
+                    if (submitText) submitText.textContent = originalText;
+                    else btn.textContent = originalText;
+                    btn.style.opacity = '1';
+                    btn.style.pointerEvents = 'all';
+                }
+            }).catch(error => {
+                alert("There was an error submitting the form.");
+                if (submitText) submitText.textContent = originalText;
+                else btn.textContent = originalText;
+                btn.style.opacity = '1';
+                btn.style.pointerEvents = 'all';
+            });
+        });
+
+        document.getElementById('bookingForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const btn = document.getElementById('formSubmitBtn');
+            const submitText = document.getElementById('submitText');
+            const originalText = submitText ? submitText.textContent : btn.textContent;
+            if (submitText) submitText.textContent = 'Sending...';
+            else btn.textContent = 'Sending...';
+            btn.style.opacity = '0.6';
+            btn.style.pointerEvents = 'none';
+
+            fetch(e.target.action, {
+                method: 'POST',
+                body: new FormData(e.target),
+                headers: { 'Accept': 'application/json' }
+            }).then(response => {
+                if (response.ok) {
+                    document.getElementById('bookingForm').classList.remove('show');
+                    document.getElementById('formSuccess').classList.add('show');
+                    e.target.reset();
+                } else {
+                    alert("There was an error submitting the form.");
+                    if (submitText) submitText.textContent = originalText;
+                    else btn.textContent = originalText;
+                    btn.style.opacity = '1';
+                    btn.style.pointerEvents = 'all';
+                }
+            }).catch(error => {
+                alert("There was an error submitting the form.");
+                if (submitText) submitText.textContent = originalText;
+                else btn.textContent = originalText;
+                btn.style.opacity = '1';
+                btn.style.pointerEvents = 'all';
+            });
         });
     </script>
 </body>
