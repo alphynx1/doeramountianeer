@@ -674,14 +674,96 @@
         .exp-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 2px
+            gap: 1.5px;
+            background: rgba(201, 150, 58, 0.08)
         }
 
         .exp-card {
+            background: var(--forest);
+            padding: 0;
+            border: 0.5px solid rgba(201, 150, 58, 0.15);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: default;
             position: relative;
             overflow: hidden;
-            aspect-ratio: 4/5;
-            cursor: none
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            border-radius: 16px;
+        }
+
+        .exp-card:hover {
+            background: var(--moss);
+            transform: translateY(-6px);
+            border-color: rgba(246, 142, 27, 0.45);
+            box-shadow: 0 12px 30px rgba(246, 142, 27, 0.12);
+        }
+
+        .exp-card:hover .trip-img-wrap img {
+            transform: scale(1.1)
+        }
+
+        .exp-card .trip-img-wrap {
+            aspect-ratio: 1 / 1;
+            height: auto;
+            border-bottom: 1px solid rgba(201, 150, 58, 0.12);
+        }
+
+        /* Customize tag styles specifically for Experiences */
+        .exp-card .tag {
+            border-radius: 100px;
+            padding: 0.25rem 0.75rem;
+            background: rgba(201, 150, 58, 0.05);
+            border: 0.5px solid rgba(201, 150, 58, 0.2);
+            color: var(--sand);
+            font-size: 0.62rem;
+        }
+
+        /* Pill style for the urgency badge on experiences */
+        .exp-card .urgency {
+            top: 1rem;
+            left: 1rem;
+            right: auto;
+            background: var(--gold);
+            color: var(--forest);
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 0.6rem;
+            letter-spacing: 0.05em;
+            padding: 0.3rem 0.8rem;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        /* Ghost/Outline Button for Experiences */
+        .exp-cta-btn {
+            background: transparent;
+            border: 1px solid var(--gold);
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--gold);
+            text-decoration: none;
+            cursor: pointer;
+            padding: 0.6rem 1.2rem;
+            border-radius: 100px;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            display: inline-block;
+            user-select: none;
+        }
+
+        .exp-cta-btn:hover {
+            background: var(--gold);
+            color: var(--forest);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(246, 142, 27, 0.25);
+        }
+
+        .read-more-btn:hover {
+            color: var(--amber) !important;
+            text-decoration: underline;
         }
 
         .exp-card-bg {
@@ -2651,9 +2733,17 @@
         </div>
         <div class="trips-grid" id="tripsContainer">
             <div style="grid-column: 1/-1; text-align: center; padding: 4rem; color: var(--text-light)">
-                <div style="display:inline-block; width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1); border-radius: 50%; border-top-color: var(--primary); animation: spin 1s ease-in-out infinite;"></div>
+                <div
+                    style="display:inline-block; width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1); border-radius: 50%; border-top-color: var(--primary); animation: spin 1s ease-in-out infinite;">
+                </div>
                 <p style="margin-top: 1rem;">Loading adventures...</p>
-                <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+                <style>
+                    @keyframes spin {
+                        to {
+                            transform: rotate(360deg);
+                        }
+                    }
+                </style>
             </div>
         </div>
     </section>
@@ -3035,6 +3125,39 @@
             }
         ];
 
+        function toggleDesc(btn) {
+            const container = btn.parentElement;
+            const shortSpan = container.querySelector('.desc-short');
+            const fullSpan = container.querySelector('.desc-full');
+            const isHidden = fullSpan.style.display === 'none';
+            
+            if (isHidden) {
+                fullSpan.style.display = 'inline';
+                shortSpan.style.display = 'none';
+                btn.innerText = 'Read Less';
+            } else {
+                fullSpan.style.display = 'none';
+                shortSpan.style.display = 'inline';
+                btn.innerText = 'Read More';
+            }
+        }
+
+        function formatDescription(text) {
+            if (!text) return '<p></p>';
+            const limit = 50;
+            if (text.length <= limit) {
+                return `<p>${text}</p>`;
+            }
+            const shortText = text.substring(0, limit) + '...';
+            return `
+                <p class="card-desc-text">
+                    <span class="desc-short">${shortText}</span>
+                    <span class="desc-full" style="display: none;">${text}</span>
+                    <span class="read-more-btn" onclick="toggleDesc(this)" style="color: var(--gold); cursor: pointer; font-weight: 700; margin-left: 5px; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block;">Read More</span>
+                </p>
+            `;
+        }
+
         function convertDriveLink(url) {
             if (!url) return '';
             const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
@@ -3045,7 +3168,7 @@
             const container = document.getElementById('tripsContainer');
             if (!container) return;
             container.innerHTML = '';
-            
+
             trips.forEach((trip, index) => {
                 const delayClass = index % 3 === 0 ? '' : (index % 3 === 1 ? 'reveal-delay-1' : 'reveal-delay-2');
                 const tagsHtml = trip.Tags ? trip.Tags.split(',').map(tag => `<span class="tag">${tag.trim()}</span>`).join('') : '';
@@ -3061,7 +3184,7 @@
                             ${urgencyHtml}
                             <h3>${trip.Title}</h3>
                             <div class="trip-date">📅 ${trip.Date}</div>
-                            <p>${trip.Description}</p>
+                            ${formatDescription(trip.Description)}
                             <div class="trip-tags">${tagsHtml}</div>
                             <div class="trip-footer">
                                 <div class="trip-price">${trip.Price}<small>per person</small></div>
@@ -3073,7 +3196,7 @@
                 `;
                 container.innerHTML += cardHtml;
             });
-            
+
             // Re-initialize Scroll Reveal for new cards
             if (window.obs) {
                 document.querySelectorAll('#tripsContainer .reveal:not(.visible)').forEach(el => window.obs.observe(el));
@@ -3133,33 +3256,31 @@
             exps.forEach((exp, index) => {
                 const delayClass = `reveal-delay-${(index % 3) + 1}`;
                 const finalImageUrl = convertDriveLink(exp.ImageURL || exp.Image); // Handle both ImageURL and Image
-                const bgStyle = finalImageUrl ? `background-image: url('${finalImageUrl}'); background-size: cover; background-position: center;` : 'background: #111;';
-                
+
                 // Construct meta tags from available fields
                 const metaFields = [
                     exp.Duration || exp.Date || '', // Use Date as fallback for Duration
                     exp.Location || '',
                     exp.Difficulty || ''
                 ].filter(Boolean);
-                
-                const metaHtml = metaFields.length > 0 
-                    ? metaFields.map(text => `<span>${text}</span>`).join('<span class="sep">·</span>')
-                    : '<span>Experience</span>';
+
+                const tagsHtml = metaFields.map(tag => `<span class="tag">${tag.trim()}</span>`).join('');
+                const badgeHtml = exp.Badge ? `<span class="urgency">${exp.Badge}</span>` : '';
 
                 const cardHtml = `
-                    <div class="exp-card reveal ${delayClass}" data-category="${exp.Category || 'trek'}">
-                        <div class="exp-card-bg" style="${bgStyle}"></div>
-                        <div class="exp-icon">${exp.Icon || '🏔'}</div>
-                        <div class="exp-price">${exp.Price || '₹ -'}</div>
-                        <div class="exp-card-content">
-                            <span class="exp-badge" style="${exp.Badge ? '' : 'display:none'}">${exp.Badge || ''}</span>
-                            <h3>${exp.Title || 'Adventure'}</h3>
-                            <div class="exp-meta">${metaHtml}</div>
+                    <div class="exp-card reveal ${delayClass}" data-category="${exp.Category || 'trek'}" style="opacity: 0; animation: fadeIn 0.8s ease forwards;">
+                        <div class="trip-img-wrap">
+                            <img src="${finalImageUrl || 'placeholder.jpg'}" alt="${exp.Title || 'Adventure'}">
                         </div>
-                        <div class="exp-caption">
-                            <div class="exp-caption-inner">
-                                <p>${exp.Description || 'Join us for an unforgettable journey through the mountains.'}</p>
-                                <a href="#contact" class="exp-book-btn" onclick="if(window.openBooking && '${exp.Date || ''}') openBooking('${(exp.Title || '').replace(/'/g, "\\'")}','${exp.Date || ''}','${exp.Price || ''}')">${exp.ButtonText || 'Book Now'}</a>
+                        <div class="trip-content">
+                            ${badgeHtml}
+                            <h3>${exp.Title || 'Adventure'}</h3>
+                            <div class="trip-date">${exp.Icon || '🏔'} ${exp.Category || 'trek'}</div>
+                            ${formatDescription(exp.Description || 'Join us for an unforgettable journey through the mountains.')}
+                            <div class="trip-tags">${tagsHtml}</div>
+                            <div class="trip-footer">
+                                <div class="trip-price">${exp.Price || '₹ -'}<small>per person</small></div>
+                                <button class="exp-cta-btn" onclick="openBooking('${(exp.Title || '').replace(/'/g, "\\'")}','${exp.Duration || exp.Date || ''}','${exp.Price || ''}')">${exp.ButtonText || 'Book Now'}</button>
                             </div>
                         </div>
                     </div>
@@ -3173,7 +3294,7 @@
             }
 
             // Re-initialize cursor effects for experiences
-            document.querySelectorAll('.exp-card, .exp-book-btn').forEach(el => {
+            document.querySelectorAll('.exp-card, .exp-cta-btn').forEach(el => {
                 el.addEventListener('mouseenter', () => { cursor.classList.add('hovering'); ring.classList.add('hovering') });
                 el.addEventListener('mouseleave', () => { cursor.classList.remove('hovering'); ring.classList.remove('hovering') });
             });
@@ -3191,10 +3312,10 @@
                 const text = await response.text();
                 const jsonString = text.substring(47, text.length - 2);
                 const data = JSON.parse(jsonString);
-                
+
                 const cols = data.table.cols.map(c => (c.label || '').trim());
                 const fallbackCols = ['Title', 'Category', 'Badge', 'Icon', 'Price', 'Duration', 'Location', 'Difficulty', 'Description', 'ButtonText', 'ImageURL'];
-                
+
                 const exps = data.table.rows.map(row => {
                     const exp = {};
                     row.c.forEach((cell, idx) => {
@@ -3203,13 +3324,13 @@
                     });
                     return exp;
                 }).filter(e => e.Title);
-                
+
                 console.log("Fetched Experiences:", exps);
 
                 // Check if we actually got experience data (checking for Category or Badge)
                 // If not, we might be pulling from the wrong tab (Upcoming Trips)
                 const isCorrectTab = exps.length > 0 && exps.some(e => e.Category || e.Badge);
-                
+
                 if (isCorrectTab) {
                     renderExperiences(exps);
                 } else {
@@ -3233,7 +3354,7 @@
                 const text = await response.text();
                 const jsonString = text.substring(47, text.length - 2);
                 const data = JSON.parse(jsonString);
-                
+
                 const cols = data.table.cols.map(c => c.label);
                 const trips = data.table.rows.map(row => {
                     const trip = {};
@@ -3241,8 +3362,8 @@
                         if (colName && row.c[idx]) trip[colName] = row.c[idx]?.v || '';
                     });
                     return trip;
-                }).filter(t => t.Title); 
-                
+                }).filter(t => t.Title);
+
                 if (trips.length > 0) renderTrips(trips);
                 else renderTrips(fallbackTrips);
             } catch (error) {
@@ -3250,7 +3371,7 @@
                 renderTrips(fallbackTrips);
             }
         }
-        
+
         // Add animation style and fetch data
         document.head.insertAdjacentHTML('beforeend', '<style>@keyframes fadeIn { to { opacity: 1; } }</style>');
         fetchTrips();
@@ -3332,13 +3453,13 @@
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 const filterValue = btn.dataset.filter;
-                
+
                 // Get all dynamically rendered cards
                 const cards = document.querySelectorAll('.exp-card');
                 cards.forEach(card => {
                     const category = card.dataset.category;
                     const show = filterValue === 'all' || category === filterValue;
-                    
+
                     card.style.opacity = show ? '1' : '0.25';
                     card.style.pointerEvents = show ? 'all' : 'none';
                     card.style.transform = show ? 'scale(1)' : 'scale(0.97)';
