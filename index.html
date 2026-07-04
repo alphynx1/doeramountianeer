@@ -109,41 +109,134 @@
             border-radius: 2px
         }
 
-        /* MOBILE MENU */
+        /* MOBILE MENU — Apple-style drop from top */
         .mobile-overlay {
-            display: none;
+            display: flex;
+            flex-direction: column;
             position: fixed;
             inset: 0;
-            background: rgba(8, 15, 9, 0.98);
-            z-index: 90;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 2.5rem;
+            z-index: 4999;
+            background: rgba(0, 0, 0, 0.45);
             opacity: 0;
+            visibility: hidden;
             pointer-events: none;
-            transition: opacity 0.3s;
-            padding: 3rem 2rem
+            transition: opacity 0.35s ease, visibility 0.35s ease
         }
 
         .mobile-overlay.open {
-            display: flex;
             opacity: 1;
+            visibility: visible;
             pointer-events: all
         }
 
-        .mobile-overlay a {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.2rem;
-            color: var(--cream);
-            text-decoration: none;
-            letter-spacing: 0.06em;
-            transition: color 0.3s;
-            cursor: pointer
+        .mobile-menu-panel {
+            position: absolute;
+            top: 62px;
+            left: 0;
+            right: 0;
+            width: 100%;
+            background: #0a1510;
+            padding: 1.25rem 1.5rem 2rem;
+            text-align: center;
+            transform: translateY(-105%);
+            transition: transform 0.48s cubic-bezier(0.32, 0.72, 0, 1);
+            border-bottom: 1px solid rgba(201, 150, 58, 0.18);
+            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45)
         }
 
-        .mobile-overlay a:hover {
+        .mobile-overlay.open .mobile-menu-panel {
+            transform: translateY(0)
+        }
+
+        .mobile-menu-label {
+            display: none
+        }
+
+        .mobile-menu-nav {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            gap: 0.1rem;
+            padding-top: 0.25rem
+        }
+
+        .mobile-overlay a {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--cream);
+            text-decoration: none;
+            letter-spacing: 0.02em;
+            transition: color 0.25s, opacity 0.25s;
+            cursor: pointer;
+            padding: 0.85rem 0;
+            width: auto;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: color 0.25s, opacity 0.35s ease, transform 0.35s ease
+        }
+
+        .mobile-overlay.open a {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .mobile-overlay.open a:nth-child(1) {
+            transition-delay: 0.06s
+        }
+
+        .mobile-overlay.open a:nth-child(2) {
+            transition-delay: 0.1s
+        }
+
+        .mobile-overlay.open a:nth-child(3) {
+            transition-delay: 0.14s
+        }
+
+        .mobile-overlay.open a:nth-child(4) {
+            transition-delay: 0.18s
+        }
+
+        .mobile-overlay.open a:nth-child(5) {
+            transition-delay: 0.22s
+        }
+
+        .mobile-overlay.open a:nth-child(6) {
+            transition-delay: 0.26s
+        }
+
+        .mobile-overlay a:last-child {
+            margin-top: 0.75rem;
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase
+        }
+
+        .mobile-overlay a:hover,
+        .mobile-overlay a:active {
             color: var(--gold)
+        }
+
+        body.menu-open {
+            overflow: hidden
+        }
+
+        body.menu-open .back-top,
+        body.menu-open .wa-wrapper {
+            opacity: 0 !important;
+            pointer-events: none !important;
+            visibility: hidden !important
+        }
+
+        body.menu-open nav {
+            z-index: 5001;
+            background: #0a1510 !important;
+            backdrop-filter: none !important;
+            border-bottom: 1px solid rgba(201, 150, 58, 0.12) !important
         }
 
         /* NAV */
@@ -2424,7 +2517,7 @@
             .hamburger {
                 display: flex !important;
                 padding: 10px;
-                z-index: 200
+                z-index: 5002
             }
 
             .hamburger span {
@@ -2663,20 +2756,25 @@
 
             .hamburger {
                 display: flex !important;
-                padding: 8px;
-                z-index: 200
+                padding: 10px;
+                z-index: 5002
             }
 
             .hamburger span {
-                width: 18px
+                width: 20px
             }
 
-            .mobile-overlay {
-                padding: 2.5rem 1.5rem
+            .mobile-menu-panel {
+                padding: 1rem 1.25rem 1.75rem
             }
 
             .mobile-overlay a {
-                font-size: 1.8rem
+                font-size: 1.15rem;
+                padding: 0.75rem 0
+            }
+
+            .mobile-overlay a:last-child {
+                font-size: 0.88rem
             }
 
             .exp-slider-viewport {
@@ -2733,12 +2831,17 @@
 
     <!-- Mobile overlay menu -->
     <div class="mobile-overlay" id="mobileMenu">
-        <a href="#experiences" onclick="closeMobile()">Experiences</a>
-        <a href="#trips" onclick="closeMobile()">Trips</a>
-        <a href="#women" onclick="closeMobile()">She Roams Free</a>
-        <a href="#affiliate" onclick="closeMobile()">Partners</a>
-        <a href="#instagram" onclick="closeMobile()">Gallery</a>
-        <a href="#contact" onclick="closeMobile()" style="color:var(--gold)">Book Now</a>
+        <div class="mobile-menu-panel">
+            <p class="mobile-menu-label">Menu</p>
+            <nav class="mobile-menu-nav">
+                <a href="#experiences">Experiences</a>
+                <a href="#trips">Trips</a>
+                <a href="#women">She Roams Free</a>
+                <a href="#affiliate">Partners</a>
+                <a href="#instagram">Gallery</a>
+                <a href="#contact">Book Now</a>
+            </nav>
+        </div>
     </div>
 
     <!-- WhatsApp -->
@@ -3355,7 +3458,7 @@
             const shortSpan = container.querySelector('.desc-short');
             const fullSpan = container.querySelector('.desc-full');
             const isHidden = fullSpan.style.display === 'none';
-            
+
             if (isHidden) {
                 fullSpan.style.display = 'inline';
                 shortSpan.style.display = 'none';
@@ -3715,7 +3818,7 @@
 
             viewport.addEventListener('pointerup', (e) => {
                 onSwipeEnd(e.clientX);
-                try { viewport.releasePointerCapture(e.pointerId); } catch (_) {}
+                try { viewport.releasePointerCapture(e.pointerId); } catch (_) { }
             }, { capture: true });
 
             viewport.addEventListener('pointercancel', () => {
@@ -3892,18 +3995,23 @@
         hamburger.addEventListener('click', () => {
             const isOpen = mobileMenu.classList.contains('open');
             if (isOpen) {
-                mobileMenu.classList.remove('open');
-                hamburger.classList.remove('open');
+                closeMobile();
             } else {
                 mobileMenu.classList.add('open');
                 hamburger.classList.add('open');
+                document.body.classList.add('menu-open');
             }
         });
 
         function closeMobile() {
             mobileMenu.classList.remove('open');
             hamburger.classList.remove('open');
+            document.body.classList.remove('menu-open');
         }
+
+        mobileMenu.addEventListener('click', (e) => {
+            if (e.target === mobileMenu) closeMobile();
+        });
 
         // Close menu when clicking a link
         document.querySelectorAll('.mobile-overlay a').forEach(link => {
