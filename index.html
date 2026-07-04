@@ -2575,8 +2575,8 @@
             }
 
             .exp-slide-img {
-                flex: 0 0 45%;
-                width: 45%;
+                flex: 0 0 42%;
+                width: 42%;
                 min-height: 0;
                 height: 100%;
             }
@@ -2584,8 +2584,8 @@
             .exp-slide-body {
                 flex: 1;
                 min-width: 0;
-                width: 55%;
-                padding: 0.65rem 0.7rem;
+                width: 58%;
+                padding: 0.6rem 0.55rem 0.6rem 0.65rem;
                 overflow: hidden;
                 justify-content: center;
                 box-sizing: border-box;
@@ -2604,26 +2604,32 @@
             .exp-slide-body .card-desc-text {
                 font-size: 0.68rem;
                 line-height: 1.4;
-                margin-bottom: 0.3rem;
+                margin-bottom: 0.28rem;
                 display: -webkit-box;
-                -webkit-line-clamp: 2;
+                -webkit-line-clamp: 1;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
             }
 
             .exp-slide-body .trip-tags {
                 display: flex;
-                flex-wrap: nowrap;
-                overflow: hidden;
-                margin-bottom: 0.35rem;
-                gap: 0.25rem;
+                flex-wrap: wrap;
+                align-items: center;
+                width: 100%;
+                margin-bottom: 0.3rem;
+                gap: 0.22rem;
+                row-gap: 0.22rem;
             }
 
             .exp-card .tag {
-                font-size: 0.52rem;
-                padding: 0.15rem 0.4rem;
+                font-size: 0.5rem;
+                padding: 0.14rem 0.38rem;
+                letter-spacing: 0.06em;
                 white-space: nowrap;
-                flex-shrink: 0;
+                flex: 0 0 auto;
+                max-width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             .exp-slide-footer {
