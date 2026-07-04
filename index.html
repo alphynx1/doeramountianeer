@@ -671,68 +671,194 @@
             border-color: var(--gold)
         }
 
-        .exp-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5px;
-            background: rgba(201, 150, 58, 0.08)
+        /* Experience slider — cinematic horizontal layout */
+        .exp-slider {
+            position: relative;
+            margin: 0 -1.5rem;
+            padding: 0 1.5rem;
+        }
+
+        .exp-slider-viewport {
+            overflow: hidden;
+            border-radius: 20px;
+            touch-action: pan-y;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .exp-slider-track {
+            display: flex;
+            gap: 16px;
+            transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
         }
 
         .exp-card {
-            background: var(--forest);
-            padding: 0;
-            border: 0.5px solid rgba(201, 150, 58, 0.15);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: default;
+            flex: 0 0 auto;
+            min-width: 0;
             position: relative;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
             border-radius: 16px;
+            border: 1px solid rgba(201, 150, 58, 0.2);
+            background: var(--forest);
+            cursor: grab;
+            transition: opacity 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+            opacity: 1;
         }
 
         .exp-card:hover {
-            background: var(--moss);
-            transform: translateY(-6px);
             border-color: rgba(246, 142, 27, 0.45);
-            box-shadow: 0 12px 30px rgba(246, 142, 27, 0.12);
+            box-shadow: 0 10px 28px rgba(246, 142, 27, 0.1);
         }
 
-        .exp-card:hover .trip-img-wrap img {
-            transform: scale(1.1)
+        .exp-card.is-filtered-out {
+            display: none;
         }
 
-        .exp-card .trip-img-wrap {
-            aspect-ratio: 1 / 1;
-            height: auto;
-            border-bottom: 1px solid rgba(201, 150, 58, 0.12);
+        .exp-card:active {
+            cursor: grabbing;
         }
 
-        /* Customize tag styles specifically for Experiences */
+        .exp-slide-inner {
+            display: flex;
+            height: 100%;
+            min-height: 260px;
+        }
+
+        .exp-slide-img {
+            flex: 0 0 42%;
+            position: relative;
+            overflow: hidden;
+            background: #081509;
+            min-height: 260px;
+        }
+
+        .exp-slide-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.2, 0, 0.2, 1);
+        }
+
+        .exp-card:hover .exp-slide-img img {
+            transform: scale(1.06);
+        }
+
+        .exp-slide-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 1.6rem 1.8rem;
+            min-width: 0;
+        }
+
+        .exp-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.15rem, 2vw, 1.45rem);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .exp-slide-body p,
+        .exp-slide-body .card-desc-text {
+            font-size: 0.85rem;
+            color: var(--muted);
+            line-height: 1.65;
+            margin-bottom: 0.85rem;
+        }
+
+        .exp-slide-body .trip-tags {
+            margin-bottom: 1rem;
+        }
+
         .exp-card .tag {
             border-radius: 100px;
             padding: 0.25rem 0.75rem;
-            background: rgba(201, 150, 58, 0.05);
-            border: 0.5px solid rgba(201, 150, 58, 0.2);
+            background: rgba(201, 150, 58, 0.12);
+            border: 0.5px solid rgba(201, 150, 58, 0.35);
             color: var(--sand);
             font-size: 0.62rem;
         }
 
-        /* Pill style for the urgency badge on experiences */
-        .exp-card .urgency {
-            top: 1rem;
-            left: 1rem;
-            right: auto;
+        .exp-slide-footer {
+            margin-top: auto;
+        }
+
+        .exp-slider-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.25rem;
+            margin-top: 2rem;
+        }
+
+        .exp-slider-btn {
+            width: 46px;
+            height: 46px;
+            min-width: 46px;
+            min-height: 46px;
+            border-radius: 50%;
+            border: 1px solid rgba(201, 150, 58, 0.35);
+            background: rgba(12, 30, 32, 0.8);
+            color: var(--gold);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: rgba(246, 142, 27, 0.25);
+        }
+
+        .exp-slider-btn:hover:not(:disabled) {
             background: var(--gold);
             color: var(--forest);
-            border-radius: 100px;
-            font-weight: 700;
-            font-size: 0.6rem;
-            letter-spacing: 0.05em;
-            padding: 0.3rem 0.8rem;
+            border-color: var(--gold);
+        }
+
+        .exp-slider-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .exp-slider-dots {
+            display: flex;
+            gap: 0.45rem;
+            align-items: center;
+        }
+
+        .exp-slider-dot {
+            width: 8px;
+            height: 8px;
+            min-width: 8px;
+            min-height: 8px;
+            border-radius: 50%;
             border: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            background: rgba(201, 150, 58, 0.25);
+            cursor: pointer;
+            padding: 0;
+            transition: all 0.3s ease;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .exp-slider-dot.active {
+            background: var(--gold);
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        .exp-slider-counter {
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            min-width: 4rem;
+            text-align: center;
         }
 
         /* Ghost/Outline Button for Experiences */
@@ -832,14 +958,6 @@
             padding: 0.28rem 0.65rem;
             margin-bottom: 0.7rem;
             align-self: flex-start
-        }
-
-        .exp-card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 0.4rem;
-            line-height: 1.2
         }
 
         .exp-meta {
@@ -2275,6 +2393,9 @@
             .mobile-overlay a,
             .back-top,
             .exp-book-btn,
+            .exp-slider-btn,
+            .exp-slider-dot,
+            .exp-cta-btn,
             .hamburger {
                 cursor: pointer !important
             }
@@ -2324,8 +2445,17 @@
                 padding: 4rem 1.5rem
             }
 
-            .exp-grid {
-                grid-template-columns: 1fr 1fr
+            .exp-slider {
+                margin: 0 -1.5rem;
+                padding: 0 1.5rem;
+            }
+
+            .exp-slider-viewport {
+                border-radius: 8px;
+            }
+
+            .exp-card {
+                border-radius: 8px;
             }
 
             .women-inner {
@@ -2437,6 +2567,17 @@
             }
         }
 
+        @media (max-width: 768px) {
+            .exp-slide-img {
+                flex: 0 0 50%;
+                min-height: 0;
+            }
+
+            .exp-slide-body {
+                flex: 0 0 50%;
+            }
+        }
+
         @media(max-width:640px) {
             nav {
                 padding: 0.8rem 0.8rem
@@ -2468,8 +2609,26 @@
                 font-size: 1.8rem
             }
 
-            .exp-grid {
-                grid-template-columns: 1fr
+            .exp-slide-inner {
+                min-height: 220px;
+            }
+
+            .exp-slider-viewport {
+                border-radius: 6px;
+            }
+
+            .exp-card {
+                border-radius: 6px;
+            }
+
+            .exp-slide-img {
+                flex: 0 0 50%;
+                min-height: 0;
+            }
+
+            .exp-slide-body {
+                flex: 0 0 50%;
+                padding: 1.2rem 1rem;
             }
 
             .insta-grid {
@@ -2672,10 +2831,20 @@
                 <button class="filter-btn" data-filter="family">Family</button>
             </div>
         </div>
-        <div id="expContainer" class="exp-grid reveal">
-            <!-- Loading state -->
-            <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--gold); font-size: 1.2rem;">
-                <p>Curating experiences...</p>
+        <div class="exp-slider reveal">
+            <div class="exp-slider-viewport">
+                <div id="expContainer" class="exp-slider-track">
+                    <!-- Loading state -->
+                    <div style="flex: 1; text-align: center; padding: 3rem; color: var(--gold); font-size: 1.2rem;">
+                        <p>Curating experiences...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="exp-slider-nav">
+                <button class="exp-slider-btn" id="expPrev" aria-label="Previous experience">&#8592;</button>
+                <span class="exp-slider-counter" id="expCounter">1 / 1</span>
+                <div class="exp-slider-dots" id="expDots"></div>
+                <button class="exp-slider-btn" id="expNext" aria-label="Next experience">&#8594;</button>
             </div>
         </div>
     </section>
@@ -3142,8 +3311,9 @@
             }
         }
 
-        function formatDescription(text) {
+        function formatDescription(text, full = false) {
             if (!text) return '<p></p>';
+            if (full) return `<p>${text}</p>`;
             const limit = 50;
             if (text.length <= limit) {
                 return `<p>${text}</p>`;
@@ -3255,32 +3425,29 @@
 
             exps.forEach((exp, index) => {
                 const delayClass = `reveal-delay-${(index % 3) + 1}`;
-                const finalImageUrl = convertDriveLink(exp.ImageURL || exp.Image); // Handle both ImageURL and Image
+                const finalImageUrl = convertDriveLink(exp.ImageURL || exp.Image);
 
-                // Construct meta tags from available fields
                 const metaFields = [
-                    exp.Duration || exp.Date || '', // Use Date as fallback for Duration
+                    exp.Duration || exp.Date || '',
                     exp.Location || '',
                     exp.Difficulty || ''
                 ].filter(Boolean);
 
                 const tagsHtml = metaFields.map(tag => `<span class="tag">${tag.trim()}</span>`).join('');
-                const badgeHtml = exp.Badge ? `<span class="urgency">${exp.Badge}</span>` : '';
 
                 const cardHtml = `
                     <div class="exp-card reveal ${delayClass}" data-category="${exp.Category || 'trek'}" style="opacity: 0; animation: fadeIn 0.8s ease forwards;">
-                        <div class="trip-img-wrap">
-                            <img src="${finalImageUrl || 'placeholder.jpg'}" alt="${exp.Title || 'Adventure'}">
-                        </div>
-                        <div class="trip-content">
-                            ${badgeHtml}
-                            <h3>${exp.Title || 'Adventure'}</h3>
-                            <div class="trip-date">${exp.Icon || '🏔'} ${exp.Category || 'trek'}</div>
-                            ${formatDescription(exp.Description || 'Join us for an unforgettable journey through the mountains.')}
-                            <div class="trip-tags">${tagsHtml}</div>
-                            <div class="trip-footer">
-                                <div class="trip-price">${exp.Price || '₹ -'}<small>per person</small></div>
-                                <button class="exp-cta-btn" onclick="openBooking('${(exp.Title || '').replace(/'/g, "\\'")}','${exp.Duration || exp.Date || ''}','${exp.Price || ''}')">${exp.ButtonText || 'Book Now'}</button>
+                        <div class="exp-slide-inner">
+                            <div class="exp-slide-img">
+                                <img src="${finalImageUrl || 'placeholder.jpg'}" alt="${exp.Title || 'Adventure'}">
+                            </div>
+                            <div class="exp-slide-body">
+                                <h3>${exp.Title || 'Adventure'}</h3>
+                                ${formatDescription(exp.Description || 'Join us for an unforgettable journey through the mountains.', true)}
+                                <div class="trip-tags">${tagsHtml}</div>
+                                <div class="exp-slide-footer">
+                                    <button class="exp-cta-btn" onclick="openBooking('${(exp.Title || '').replace(/'/g, "\\'")}','${exp.Duration || exp.Date || ''}','${exp.Price || ''}')">${exp.ButtonText || 'Book Now'}</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -3288,16 +3455,277 @@
                 container.innerHTML += cardHtml;
             });
 
-            // Re-initialize Scroll Reveal for new cards
             if (window.obs) {
                 document.querySelectorAll('#expContainer .reveal:not(.visible)').forEach(el => window.obs.observe(el));
             }
 
-            // Re-initialize cursor effects for experiences
             document.querySelectorAll('.exp-card, .exp-cta-btn').forEach(el => {
                 el.addEventListener('mouseenter', () => { cursor.classList.add('hovering'); ring.classList.add('hovering') });
                 el.addEventListener('mouseleave', () => { cursor.classList.remove('hovering'); ring.classList.remove('hovering') });
             });
+
+            expSliderIndex = 0;
+            initExpSlider();
+        }
+
+        let expSliderIndex = 0;
+        let expSliderAutoTimer = null;
+        let expSliderAutoPaused = false;
+        let expSliderHolding = false;
+        const EXP_SLIDER_AUTO_MS = 1800;
+        const EXP_SLIDER_HOLD_RESUME_MS = 3500;
+
+        function isExpSliderMobile() {
+            return window.innerWidth <= 768;
+        }
+
+        function getExpSliderMetrics(cardCount, viewportWidth) {
+            const gap = 16;
+            const isMobile = window.innerWidth <= 768;
+            const visibleCount = isMobile ? 1.2 : 2.5;
+            const gapCount = isMobile ? 1 : 2;
+            const slideWidth = Math.round((viewportWidth - gap * gapCount) / visibleCount);
+            const trackWidth = cardCount * slideWidth + (cardCount - 1) * gap;
+            const maxOffset = Math.max(0, trackWidth - viewportWidth);
+            const step = slideWidth + gap;
+            const maxIndex = step > 0 && maxOffset > 0 ? Math.ceil(maxOffset / step) : 0;
+            return { gap, slideWidth, maxOffset, step, maxIndex };
+        }
+
+        function clearExpSliderResumeTimers() {
+            clearTimeout(window.expSliderAutoResumeTimer);
+            clearTimeout(window.expSliderHoldResumeTimer);
+        }
+
+        function stopExpSliderAutoplay() {
+            if (expSliderAutoTimer) {
+                clearInterval(expSliderAutoTimer);
+                expSliderAutoTimer = null;
+            }
+        }
+
+        function holdExpSliderAutoplay() {
+            expSliderHolding = true;
+            stopExpSliderAutoplay();
+            clearExpSliderResumeTimers();
+        }
+
+        function releaseExpSliderHold(delay = EXP_SLIDER_HOLD_RESUME_MS) {
+            expSliderHolding = false;
+            clearTimeout(window.expSliderHoldResumeTimer);
+            if (expSliderAutoPaused || !isExpSliderMobile()) return;
+            window.expSliderHoldResumeTimer = setTimeout(() => {
+                if (!expSliderHolding && !expSliderAutoPaused) startExpSliderAutoplay();
+            }, delay);
+        }
+
+        function startExpSliderAutoplay() {
+            stopExpSliderAutoplay();
+            if (!isExpSliderMobile() || expSliderAutoPaused || expSliderHolding) return;
+            if (!getVisibleExpCards().length) return;
+
+            expSliderAutoTimer = setInterval(() => {
+                if (expSliderHolding || expSliderAutoPaused) return;
+                const viewport = document.querySelector('.exp-slider-viewport');
+                const cards = getVisibleExpCards();
+                if (!cards.length) return;
+                const { maxIndex } = getExpSliderMetrics(cards.length, viewport ? viewport.clientWidth : 0);
+                expSliderIndex = expSliderIndex >= maxIndex ? 0 : expSliderIndex + 1;
+                updateExpSlider();
+            }, EXP_SLIDER_AUTO_MS);
+        }
+
+        function pauseExpSliderAutoplay(ms = 6000) {
+            expSliderAutoPaused = true;
+            stopExpSliderAutoplay();
+            clearExpSliderResumeTimers();
+            window.expSliderAutoResumeTimer = setTimeout(() => {
+                expSliderAutoPaused = false;
+                if (!expSliderHolding) startExpSliderAutoplay();
+            }, ms);
+        }
+
+        function getVisibleExpCards() {
+            return Array.from(document.querySelectorAll('#expContainer .exp-card:not(.is-filtered-out)'));
+        }
+
+        function updateExpSlider() {
+            const track = document.getElementById('expContainer');
+            const viewport = document.querySelector('.exp-slider-viewport');
+            const cards = getVisibleExpCards();
+            const prevBtn = document.getElementById('expPrev');
+            const nextBtn = document.getElementById('expNext');
+            const counter = document.getElementById('expCounter');
+            const dotsWrap = document.getElementById('expDots');
+
+            if (!track || cards.length === 0) {
+                if (counter) counter.textContent = '0 / 0';
+                if (prevBtn) prevBtn.disabled = true;
+                if (nextBtn) nextBtn.disabled = true;
+                if (dotsWrap) dotsWrap.innerHTML = '';
+                return;
+            }
+
+            const viewportWidth = viewport ? viewport.clientWidth : 0;
+            if (viewportWidth < 50) {
+                requestAnimationFrame(() => updateExpSlider());
+                return;
+            }
+
+            const { gap, slideWidth, maxOffset, step, maxIndex } = getExpSliderMetrics(cards.length, viewportWidth);
+
+            if (expSliderIndex > maxIndex) expSliderIndex = maxIndex;
+            if (expSliderIndex < 0) expSliderIndex = 0;
+
+            cards.forEach(card => {
+                card.style.flex = `0 0 ${slideWidth}px`;
+                card.style.width = `${slideWidth}px`;
+            });
+
+            const offset = Math.min(expSliderIndex * step, maxOffset);
+            track.style.gap = `${gap}px`;
+            track.style.transform = `translateX(-${offset}px)`;
+
+            if (counter) counter.textContent = `${expSliderIndex + 1} / ${maxIndex + 1}`;
+            if (prevBtn) prevBtn.disabled = expSliderIndex === 0;
+            if (nextBtn) nextBtn.disabled = expSliderIndex >= maxIndex;
+
+            if (dotsWrap) {
+                const dotCount = maxIndex + 1;
+                dotsWrap.innerHTML = Array.from({ length: dotCount }, (_, i) =>
+                    `<button class="exp-slider-dot${i === expSliderIndex ? ' active' : ''}" data-index="${i}" aria-label="Go to slide ${i + 1}"></button>`
+                ).join('');
+                dotsWrap.querySelectorAll('.exp-slider-dot').forEach(dot => {
+                    dot.addEventListener('click', () => {
+                        expSliderIndex = +dot.dataset.index;
+                        updateExpSlider();
+                        pauseExpSliderAutoplay();
+                    });
+                });
+            }
+        }
+
+        function expSliderGo(delta, fromUser = true) {
+            const viewport = document.querySelector('.exp-slider-viewport');
+            const cards = getVisibleExpCards();
+            const { maxIndex } = getExpSliderMetrics(cards.length, viewport ? viewport.clientWidth : 0);
+            const next = expSliderIndex + delta;
+            if (next < 0 || next > maxIndex) return;
+            expSliderIndex = next;
+            updateExpSlider();
+            if (fromUser) pauseExpSliderAutoplay();
+        }
+
+        function bindExpSliderGestures(viewport) {
+            if (!viewport || viewport.dataset.bound) return;
+            viewport.dataset.bound = '1';
+
+            let startX = 0, startY = 0, tracking = false, isHorizontal = null;
+
+            const onSwipeEnd = (endX) => {
+                if (!tracking) return;
+                const diff = startX - endX;
+                const didSwipe = Math.abs(diff) > 40;
+                if (didSwipe) {
+                    if (diff > 0) expSliderGo(1);
+                    else expSliderGo(-1);
+                }
+                tracking = false;
+                isHorizontal = null;
+                releaseExpSliderHold(didSwipe ? 5000 : EXP_SLIDER_HOLD_RESUME_MS);
+            };
+
+            viewport.addEventListener('pointerdown', (e) => {
+                if (e.pointerType === 'mouse' && e.button !== 0) return;
+                if (e.target.closest('.exp-cta-btn, .read-more-btn, a, button')) return;
+                holdExpSliderAutoplay();
+                startX = e.clientX;
+                startY = e.clientY;
+                tracking = true;
+                isHorizontal = null;
+                viewport.setPointerCapture(e.pointerId);
+            }, { capture: true });
+
+            viewport.addEventListener('pointermove', (e) => {
+                if (!tracking) return;
+                const dx = Math.abs(e.clientX - startX);
+                const dy = Math.abs(e.clientY - startY);
+                if (isHorizontal === null && (dx > 8 || dy > 8)) {
+                    isHorizontal = dx > dy;
+                }
+                if (isHorizontal && e.cancelable) e.preventDefault();
+            }, { capture: true });
+
+            viewport.addEventListener('pointerup', (e) => {
+                onSwipeEnd(e.clientX);
+                try { viewport.releasePointerCapture(e.pointerId); } catch (_) {}
+            }, { capture: true });
+
+            viewport.addEventListener('pointercancel', () => {
+                tracking = false;
+                isHorizontal = null;
+                releaseExpSliderHold();
+            }, { capture: true });
+        }
+
+        function initExpSlider() {
+            const track = document.getElementById('expContainer');
+            const prevBtn = document.getElementById('expPrev');
+            const nextBtn = document.getElementById('expNext');
+            const viewport = document.querySelector('.exp-slider-viewport');
+
+            if (!track) return;
+
+            requestAnimationFrame(() => updateExpSlider());
+
+            if (prevBtn && !prevBtn.dataset.bound) {
+                prevBtn.dataset.bound = '1';
+                prevBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    expSliderGo(-1);
+                });
+            }
+            if (nextBtn && !nextBtn.dataset.bound) {
+                nextBtn.dataset.bound = '1';
+                nextBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    expSliderGo(1);
+                });
+            }
+
+            bindExpSliderGestures(viewport);
+
+            if (!window.expSliderResizeBound) {
+                window.expSliderResizeBound = true;
+                window.addEventListener('resize', () => {
+                    updateExpSlider();
+                    if (isExpSliderMobile()) startExpSliderAutoplay();
+                    else stopExpSliderAutoplay();
+                });
+                window.addEventListener('orientationchange', () => {
+                    setTimeout(() => {
+                        updateExpSlider();
+                        if (isExpSliderMobile()) startExpSliderAutoplay();
+                        else stopExpSliderAutoplay();
+                    }, 150);
+                });
+            }
+
+            const sliderWrap = document.querySelector('.exp-slider.reveal');
+            if (sliderWrap && !sliderWrap.dataset.sliderObserved) {
+                sliderWrap.dataset.sliderObserved = '1';
+                const sliderObs = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            requestAnimationFrame(() => updateExpSlider());
+                            if (isExpSliderMobile()) startExpSliderAutoplay();
+                        } else {
+                            stopExpSliderAutoplay();
+                        }
+                    });
+                }, { threshold: 0.05 });
+                sliderObs.observe(sliderWrap);
+            }
         }
 
         async function fetchExperiences() {
@@ -3454,17 +3882,16 @@
                 btn.classList.add('active');
                 const filterValue = btn.dataset.filter;
 
-                // Get all dynamically rendered cards
-                const cards = document.querySelectorAll('.exp-card');
-                cards.forEach(card => {
+                document.querySelectorAll('.exp-card').forEach(card => {
                     const category = card.dataset.category;
                     const show = filterValue === 'all' || category === filterValue;
-
-                    card.style.opacity = show ? '1' : '0.25';
-                    card.style.pointerEvents = show ? 'all' : 'none';
-                    card.style.transform = show ? 'scale(1)' : 'scale(0.97)';
-                    card.style.transition = 'all 0.35s ease';
+                    card.classList.toggle('is-filtered-out', !show);
                 });
+
+                expSliderIndex = 0;
+                updateExpSlider();
+                expSliderAutoPaused = false;
+                startExpSliderAutoplay();
             });
         });
 
