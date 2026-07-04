@@ -2568,13 +2568,77 @@
         }
 
         @media (max-width: 768px) {
+            .exp-slide-inner {
+                height: 200px;
+                min-height: unset;
+                max-height: 200px;
+            }
+
             .exp-slide-img {
-                flex: 0 0 50%;
+                flex: 0 0 45%;
+                width: 45%;
                 min-height: 0;
+                height: 100%;
             }
 
             .exp-slide-body {
-                flex: 0 0 50%;
+                flex: 1;
+                min-width: 0;
+                width: 55%;
+                padding: 0.65rem 0.7rem;
+                overflow: hidden;
+                justify-content: center;
+                box-sizing: border-box;
+            }
+
+            .exp-card h3 {
+                font-size: 0.88rem;
+                margin-bottom: 0.25rem;
+                line-height: 1.2;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .exp-slide-body p,
+            .exp-slide-body .card-desc-text {
+                font-size: 0.68rem;
+                line-height: 1.4;
+                margin-bottom: 0.3rem;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+
+            .exp-slide-body .trip-tags {
+                display: flex;
+                flex-wrap: nowrap;
+                overflow: hidden;
+                margin-bottom: 0.35rem;
+                gap: 0.25rem;
+            }
+
+            .exp-card .tag {
+                font-size: 0.52rem;
+                padding: 0.15rem 0.4rem;
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+
+            .exp-slide-footer {
+                margin-top: 0;
+            }
+
+            .exp-slide-body .exp-cta-btn {
+                padding: 0.35rem 0.6rem;
+                font-size: 0.58rem;
+                white-space: nowrap;
+                max-width: 100%;
+            }
+
+            .exp-slide-img img {
+                object-position: center;
             }
         }
 
@@ -2609,26 +2673,12 @@
                 font-size: 1.8rem
             }
 
-            .exp-slide-inner {
-                min-height: 220px;
-            }
-
             .exp-slider-viewport {
                 border-radius: 6px;
             }
 
             .exp-card {
                 border-radius: 6px;
-            }
-
-            .exp-slide-img {
-                flex: 0 0 50%;
-                min-height: 0;
-            }
-
-            .exp-slide-body {
-                flex: 0 0 50%;
-                padding: 1.2rem 1rem;
             }
 
             .insta-grid {
@@ -3439,7 +3489,7 @@
                     <div class="exp-card reveal ${delayClass}" data-category="${exp.Category || 'trek'}" style="opacity: 0; animation: fadeIn 0.8s ease forwards;">
                         <div class="exp-slide-inner">
                             <div class="exp-slide-img">
-                                <img src="${finalImageUrl || 'placeholder.jpg'}" alt="${exp.Title || 'Adventure'}">
+                                <img src="${finalImageUrl || 'placeholder.jpg'}" alt="" loading="lazy">
                             </div>
                             <div class="exp-slide-body">
                                 <h3>${exp.Title || 'Adventure'}</h3>
@@ -3482,9 +3532,10 @@
         function getExpSliderMetrics(cardCount, viewportWidth) {
             const gap = 16;
             const isMobile = window.innerWidth <= 768;
-            const visibleCount = isMobile ? 1.2 : 2.5;
             const gapCount = isMobile ? 1 : 2;
-            const slideWidth = Math.round((viewportWidth - gap * gapCount) / visibleCount);
+            const slideWidth = isMobile
+                ? Math.round(viewportWidth * 0.88)
+                : Math.round((viewportWidth - gap * gapCount) / 2.5);
             const trackWidth = cardCount * slideWidth + (cardCount - 1) * gap;
             const maxOffset = Math.max(0, trackWidth - viewportWidth);
             const step = slideWidth + gap;
